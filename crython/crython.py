@@ -27,6 +27,10 @@ PHRASES_REGEX = re.compile('{0}'.format('|'.join(PHRASES.keys()).lstrip('|')), f
 
 class CronField(collections.namedtuple('CronField', 'value min max specials')):
     def __new__(cls, *args, **kwargs):
+        """
+        Creates a new CronField from the given time by substituting english dow/mon phrases for their
+        respective numeric values and validating string expressions for invalid special characters.
+        """
         args = (CronField.sub_english_phrases(args[0]),) + args[1:]
         field = super(CronField, cls).__new__(cls, *args, **kwargs)
         if isinstance(field.value, basestring): #validate special characters for this field type
@@ -34,24 +38,27 @@ class CronField(collections.namedtuple('CronField', 'value min max specials')):
             if invalid_chars:
                 raise ValueError('Found invalid characters: {0}'.format(','.join(invalid_chars)))
         return field
-    def __contains__(self, item): #item should always be numeric (from datetime)
+
+    def __contains__(self, item):
+        """
+        Determines if the given time is 'within' the time denoted by this individual field.
+        """
         value = self.value
         if isinstance(value, (int, long)):
             return value == item
         if isinstance(value, basestring):
             result = False
-            values = re.split(r'[,]', value)
-            for v in values:
-                v = re.split(r'[-/]', v)
-                if len(v) == 1:
-                    if v[0] == '*':                         #single wildcard (ex: *)
+            for value in re.split(r'[,]', value):               #comma separated values (ex: 1,4,10)
+                value = re.split(r'[-/]', value)                #separate range and step characters
+                if len(value) == 1:
+                    if value[0] == '*':                         #single wildcard (ex: *)
                         return True
-                    result |=  int(v[0]) == item            #single digit (ex: 10)
-                if v[0] == '*':                             #wildcart w/ step (ex: */2 ==> 0-59/2)
-                    v = [self.min, self.max, v[1]]
-                start = int(v[0])                           #range (ex: 0-10)
-                stop = int(v[1]) if len(v) > 1 else None
-                step = int(v[2]) if len(v) > 2 else None    #range w/ step (ex: 0-10/2)
+                    result |=  int(value[0]) == item            #single digit (ex: 10)
+                if value[0] == '*':                             #wildcart w/ step (ex: */2 ==> 0-59/2)
+                    value = [self.min, self.max, value[1]]
+                start = int(value[0])                           #range (ex: 0-10)
+                stop = int(value[1]) if len(value) > 1 else None
+                step = int(value[2]) if len(value) > 2 else None    #range w/ step (ex: 0-10/2)
                 result |= start <= item <= stop and (not step or (item + start) % step == 0)
             return result
         if isinstance(value, collections.Iterable):
@@ -59,6 +66,10 @@ class CronField(collections.namedtuple('CronField', 'value min max specials')):
 
     @staticmethod
     def sub_english_phrases(value):
+        """
+        Replace any full or abbreviated english dow/mon phrases (Jan, Monday, etc) from the field value
+        with its respective integer representation.
+        """
         def _repl(match):
             return str(PHRASES[match.group(0).lower()])
         return PHRASES_REGEX.sub(_repl, value)
