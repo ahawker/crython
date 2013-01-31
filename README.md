@@ -5,4 +5,4 @@ crython is a python implementation of [cron](http://en.wikipedia.org/wiki/Cron) 
 This module is currently under development.
 
 ### See Other
-There are other python implementations of cron out there, namely [pycron](http://www.kalab.com/freeware/pycron/pycron.htm).
+There are other python implementations of cron out there. See: [pycron](http://www.kalab.com/freeware/pycron/pycron.htm), [python-crontab](http://pypi.python.org/pypi/python-crontab/).
