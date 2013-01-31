@@ -1,5 +1,6 @@
 import crython
 import unittest
+from crython.crython import sec
 
 __author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
 
@@ -74,5 +75,11 @@ class TestSecond(unittest.TestCase):
         """
         pass
 
-    def test_sec_wildcard(self):
+    def test_sec_wildcard_always_pass(self):
+        """
+        Test random assortment of values against the wildcard.
+        """
+        pass
+
+    def test_sec_range(self):
         pass
