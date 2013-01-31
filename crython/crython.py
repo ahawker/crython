@@ -16,6 +16,8 @@ __all__ = ['sec', 'min', 'hr', 'dom', 'mon', 'dow', 'yr']
 #@hourly    Run once an hour at the beginning of the hour                           0 * * * *
 #@reboot    Run at startup                                                          @reboot
 
+SPECIALS = {'*', '/', '%', ',', '-', 'L', 'W', '#', '?'}
+
 DAY_NAME = dict((v.lower(),k) for k,v in enumerate(calendar.day_name))      #(ex: Monday, Tuesday, etc)
 DAY_ABBR = dict((v.lower(),k) for k,v in enumerate(calendar.day_abbr))      #(ex: Mon, Tue, etc)
 MON_NAME = dict((v.lower(),k) for k,v in enumerate(calendar.month_name))    #(ex: January, February, etc)
@@ -25,9 +27,14 @@ PHRASES_REGEX = re.compile('{0}'.format('|'.join(PHRASES.keys()).lstrip('|')), f
 
 class CronField(collections.namedtuple('CronField', 'value min max specials')):
     def __new__(cls, *args, **kwargs):
-        value = CronField.sub_english_phrases(args[0])
-        return super(CronField, cls).__new__(cls, *((value,) + args[1:]), **kwargs)
-    def __contains__(self, item): #item should always be numeric # XXX confirm this
+        args = (CronField.sub_english_phrases(args[0]),) + args[1:]
+        field = super(CronField, cls).__new__(cls, *args, **kwargs)
+        if isinstance(field.value, basestring): #validate special characters for this field type
+            invalid_chars = SPECIALS.difference(field.specials).intersection(set(field.value))
+            if invalid_chars:
+                raise ValueError('Found invalid characters: {0}'.format(','.join(invalid_chars)))
+        return field
+    def __contains__(self, item): #item should always be numeric (from datetime)
         value = self.value
         if isinstance(value, (int, long)):
             return value == item
@@ -56,13 +63,13 @@ class CronField(collections.namedtuple('CronField', 'value min max specials')):
             return str(PHRASES[match.group(0).lower()])
         return PHRASES_REGEX.sub(_repl, value)
 
-sec = lambda *args,**kwargs: CronField(*(args + (0, 59,      ('*', '/', ',', '-'))),                **kwargs)
-min = lambda *args,**kwargs: CronField(*(args + (0, 59,      ('*', '/', ',', '-'))),                **kwargs)
-hr  = lambda *args,**kwargs: CronField(*(args + (0, 23,      ('*', '/', ',', '-'))),                **kwargs)
-dom = lambda *args,**kwargs: CronField(*(args + (1, 31,      ('*', '/', ',', '-', '?', 'L', 'W'))), **kwargs)
-mon = lambda *args,**kwargs: CronField(*(args + (1, 12,      ('*', '/', ',', '-'))),                **kwargs)
-dow = lambda *args,**kwargs: CronField(*(args + (0, 6,       ('*', '/', '-', '?', 'L', '#'))),      **kwargs)
-yr  = lambda *args,**kwargs: CronField(*(args + (1970, 2099, ('*', '/', ',', '-'))),                **kwargs)
+sec = lambda *args,**kwargs: CronField(*(args + (0, 59,      {'*', '/', ',', '-'})),                **kwargs)
+min = lambda *args,**kwargs: CronField(*(args + (0, 59,      {'*', '/', ',', '-'})),                **kwargs)
+hr  = lambda *args,**kwargs: CronField(*(args + (0, 23,      {'*', '/', ',', '-'})),                **kwargs)
+dom = lambda *args,**kwargs: CronField(*(args + (1, 31,      {'*', '/', ',', '-', '?', 'L', 'W'})), **kwargs)
+mon = lambda *args,**kwargs: CronField(*(args + (1, 12,      {'*', '/', ',', '-'})),                **kwargs)
+dow = lambda *args,**kwargs: CronField(*(args + (0, 6,       {'*', '/', '-', '?', 'L', '#'})),      **kwargs)
+yr  = lambda *args,**kwargs: CronField(*(args + (1970, 2099, {'*', '/', ',', '-'})),                **kwargs)
 
 
 CronTime = collections.namedtuple('CronTime', 'year month day hour minute second weekday')
