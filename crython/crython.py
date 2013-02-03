@@ -51,10 +51,10 @@ class CronField(collections.namedtuple('CronField', 'value min max specials')):
                     if value[0] == '*':                             #single wildcard (ex: *)
                         return True
                     result |=  int(value[0]) == item                #single digit (ex: 10)
+                    continue
                 if value[0] == '*':                                 #wildcard w/ step (ex: */2 ==> 0-59/2)
                     value = [self.min, self.max, value[1]]
-                start = int(value[0])                               #range (ex: 0-10)
-                stop = int(value[1]) if len(value) > 1 else None
+                start, stop = sorted(map(int, value[:2]))           #range (ex: 0-10)
                 step = int(value[2]) if len(value) > 2 else None    #range w/ step (ex: 0-10/2)
                 result |= start <= item <= stop and (not step or (item + start) % step == 0)
             return result
