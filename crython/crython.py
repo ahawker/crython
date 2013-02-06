@@ -1,12 +1,16 @@
 import calendar
-import os
+import functools
+import logging
 import re
 import datetime
 import threading
 import collections
+import time
 
 __author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
-__all__ = ['sec', 'min', 'hr', 'dom', 'mon', 'dow', 'yr']
+__all__ = ['job', 'tab', 'sec', 'min', 'hr', 'dom', 'mon', 'dow', 'yr']
+
+LOG = logging.getLogger(__name__)
 
 DAY_NAME = dict((v.lower(),k) for k,v in enumerate(calendar.day_name))      #(ex: Monday, Tuesday, etc)
 DAY_ABBR = dict((v.lower(),k) for k,v in enumerate(calendar.day_abbr))      #(ex: Mon, Tue, etc)
@@ -15,26 +19,28 @@ MON_ABBR = dict((v.lower(),k) for k,v in enumerate(calendar.month_abbr))    #(ex
 PHRASES  = dict(DAY_NAME.items() + DAY_ABBR.items() + MON_NAME.items() + MON_ABBR.items())
 PHRASES_REGEX = re.compile('|'.join(PHRASES.keys()).lstrip('|'), flags=re.IGNORECASE)
 
-class CronField(collections.namedtuple('CronField', 'value min max specials')):
-    SPECIALS = {'*', '/', '%', ',', '-', 'L', 'W', '#', '?'}
+class CronField(object):
+    SPECIALS   = {'*', '/', '%', ',', '-', 'L', 'W', '#', '?'}
 
-    def __new__(cls, *args, **kwargs):
-        """
-        Creates a new CronField from the given time by substituting english dow/mon phrases for their
-        respective numeric values and validating string expressions for invalid special characters.
-        """
-        args = (CronField.sub_english_phrases(args[0]),) + args[1:]
-        field = super(CronField, cls).__new__(cls, *args, **kwargs)
-        if isinstance(field.value, basestring):
-            invalid_chars = cls.SPECIALS.difference(field.specials).intersection(set(field.value))
+    def __init__(self, *args):
+        self.value, self.min, self.max, self.specials = args
+        if isinstance(self.value, (int, long)):                     #numbers must be within bounds
+            if not self.min <= self.value <= self.max:
+                raise ValueError('Value must be between {0} and {1}'.format(self.min, self.max))
+        if isinstance(self.value, basestring):                      #sub name/abbr for month/dayofweek
+            self.value = CronField.sub_english_phrases(self.value)
+            invalid_chars = self.SPECIALS.difference(self.specials).intersection(set(self.value))
             if invalid_chars:
-                raise ValueError('Found invalid characters: {0}'.format(','.join(invalid_chars)))
-        return field
+                raise ValueError('Field contains invalid special characters: {0}'.format(','.join(invalid_chars)))
+        elif isinstance(self.value, collections.Iterable):          #sort iterables
+            self.value = sorted(self.value)
 
     def __repr__(self):
         return '<CronField: {0}>'.format(self)
     def __str__(self):
-        return self.value
+        if isinstance(self.value, collections.Iterable) and len(self.value) >= 5:
+            return '[{0}...{1}]'.format(self.value[0], self.value[-1])
+        return str(self.value)
 
     def __contains__(self, item):
         """
@@ -49,7 +55,7 @@ class CronField(collections.namedtuple('CronField', 'value min max specials')):
                 value = re.split(r'[-/]', value)                    #separate range and step characters
                 if len(value) == 1:
                     if value[0] == '*':                             #single wildcard (ex: *)
-                        return True
+                        return self.min <= item <= self.max
                     result |=  int(value[0]) == item                #single digit (ex: 10)
                     continue
                 if value[0] == '*':                                 #wildcard w/ step (ex: */2 ==> 0-59/2)
@@ -69,38 +75,37 @@ class CronField(collections.namedtuple('CronField', 'value min max specials')):
         """
         def _repl(match):
             return str(PHRASES[match.group(0).lower()])
-        return PHRASES_REGEX.sub(_repl, value)
+        return PHRASES_REGEX.sub(_repl, str(value))
 
-#funcs for field creation so we don't need to subclass CronField with defaults
-sec = lambda *args, **kwargs: CronField(*(args + (0, 59,      {'*', '/', ',', '-'})),                **kwargs)
-min = lambda *args, **kwargs: CronField(*(args + (0, 59,      {'*', '/', ',', '-'})),                **kwargs)
-hr  = lambda *args, **kwargs: CronField(*(args + (0, 23,      {'*', '/', ',', '-'})),                **kwargs)
-dom = lambda *args, **kwargs: CronField(*(args + (1, 31,      {'*', '/', ',', '-', '?', 'L', 'W'})), **kwargs)
-mon = lambda *args, **kwargs: CronField(*(args + (1, 12,      {'*', '/', ',', '-'})),                **kwargs)
-dow = lambda *args, **kwargs: CronField(*(args + (0, 6,       {'*', '/', '-', '?', 'L', '#'})),      **kwargs)
-yr  = lambda *args, **kwargs: CronField(*(args + (1970, 2099, {'*', '/', ',', '-'})),                **kwargs)
-
-
-CronTime = collections.namedtuple('CronTime', 'year month day hour minute second weekday')
+#funcs for field creation so we don't need to subclass CronField with min/max/specials
+sec = lambda v: CronField(v, 0,    59,   {'*', '/', ',', '-'})
+min = lambda v: CronField(v, 0,    59,   {'*', '/', ',', '-'})
+hr  = lambda v: CronField(v, 0,    23,   {'*', '/', ',', '-'})
+dom = lambda v: CronField(v, 1,    31,   {'*', '/', ',', '-', '?', 'L', 'W'})
+mon = lambda v: CronField(v, 1,    12,   {'*', '/', ',', '-'})
+dow = lambda v: CronField(v, 0,    6,    {'*', '/', '-', '?', 'L', '#'})
+yr  = lambda v: CronField(v, 1970, 2099, {'*', '/', ',', '-'})
 
 class CronExpression(object):
-    FIELDS = ('second', 'minute', 'hour', 'day', 'month', 'weekday')
+    STRUCT_TIME = ('year', 'month', 'day', 'hour', 'minute', 'second', 'weekday')           #time.struct_time fields
+    FIELD_NAMES = ('second', 'minute', 'hour', 'day', 'month', 'weekday', 'year', 'expr')   #supported kwargs
+    FIELDS = dict(zip(FIELD_NAMES, (sec, min, hr, dom, mon, dow, yr)))                      #field name->init func
 
     def __init__(self, **kwargs):
-        for k,v in dict(zip(self.FIELDS, kwargs.get('expr', '* * * * * *').split(' ')), **kwargs).items():
-            setattr(self, k, v)
+        expression = dict(zip(self.FIELD_NAMES, kwargs.pop('expr', '* * * * * * *').split()))
+        for field, ctor in self.FIELDS.items():
+            setattr(self, field, ctor(kwargs.pop(field, expression.pop(field, '*'))))
 
     def __repr__(self):
         return '<CronExpression: {0}>'.format(self)
     def __str__(self):
-        return ' '.join(self.__dict__.values())
+        return '{second} {minute} {hour} {day} {month} {weekday}'.format(**self.__dict__)
 
     def __contains__(self, item): #item should always be a datetime #XXX confirm and revise
         if not isinstance(item, datetime.datetime): #hrm
             return False
-        item = CronTime(*item.timetuple()[:7])
-        return all(getattr(item, k) in v for k,v in self.__dict__.items())
-
+        item = dict(zip(self.STRUCT_TIME, item.timetuple()[:7]))
+        return all(item[k] in v for k,v in self.__dict__.items())
 
 KEYWORDS = {'yearly'   : CronExpression(expr='0 0 0 1 1 *'),
             'annually' : CronExpression(expr='0 0 0 1 1 *'),
@@ -111,16 +116,64 @@ KEYWORDS = {'yearly'   : CronExpression(expr='0 0 0 1 1 *'),
             'minutely' : CronExpression(expr='0 * * * * *'),
             'reboot'   : None} #@reboot
 
-class CronJob(object):
-    def __init__(self, cron, func, args, kwargs):
-        self.cron = cron
-        self.func = func
-        self.args = args or ()
-        self.kwargs = kwargs or {}
-
 class CronTab(threading.Thread):
     def __init__(self, *args, **kwargs):
         super(CronTab, self).__init__(*args, **kwargs)
+        self.name = kwargs.get('name', 'CronTab ({0})'.format(id(self)))
+        self.daemon = True
+        self.jobs = {}
+        self.proc_event = threading.Event()
+        self.stop_event = threading.Event()
+
+    def register(self, name, job):
+        self.jobs[name] = job
+        self.proc_event.set()
+
+    def deregister(self, name):
+        if name in self.jobs:
+            del self.jobs[name]
+            if len(self.jobs) == 0:
+                self.proc_event.clear()
+
+    def stop(self):
+        self.stop_event.set()
+        self.proc_event.clear()
 
     def run(self):
-        pass
+        LOG.debug('{0} started.'.format(self.name))
+        try:
+            while True:
+                self.proc_event.wait()
+                if self.stop_event.is_set():
+                    return
+
+                now = datetime.datetime.now()
+                for _, job in self.jobs.items():
+                    if now in job.cron:
+                        job()
+
+                time.sleep(1)
+        except Exception:
+            LOG.exception('{0} encountered unhandled exception. '.format(self.name))
+
+tab = CronTab()
+
+def job(*args, **kwargs):
+    ctab = kwargs.pop('tab', tab)
+    on_success = kwargs.pop('on_success', lambda ctx: None)
+    on_failure = kwargs.pop('on_failure', lambda ctx: None)
+    cron = CronExpression(**kwargs)
+    fargs = dict((k, kwargs[k]) for k in kwargs.keys() if k not in CronExpression.FIELD_NAMES) #func specific kwargs
+
+    def decorator(func):
+        @functools.wraps(func)
+        def f():
+            try:
+                return on_success(func(*args, **fargs))
+            except Exception as e:
+                return on_failure(e)
+        f.cron = cron
+        f.name = '.'.join((func.__module__ or '__main__', func.__name__))
+        ctab.register(f.name, f)
+        return f
+    return decorator
