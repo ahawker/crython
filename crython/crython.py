@@ -145,6 +145,7 @@ class CronTab(threading.Thread):
             while True:
                 self.proc_event.wait()
                 if self.stop_event.is_set():
+                    LOG.info('{0} stopped.'.format(self.name))
                     return
 
                 now = datetime.datetime.now()
