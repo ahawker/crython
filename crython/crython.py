@@ -94,12 +94,12 @@ class CronExpression(object):
     def __init__(self, **kwargs):
         expression = dict(zip(self.FIELD_NAMES, kwargs.pop('expr', '* * * * * * *').split()))
         for field, ctor in self.FIELDS.items():
-            setattr(self, field, ctor(kwargs.pop(field, expression.pop(field, '*'))))
+            setattr(self, field, ctor(kwargs.get(field, expression.get(field, '*'))))
 
     def __repr__(self):
         return '<CronExpression: {0}>'.format(self)
     def __str__(self):
-        return '{second} {minute} {hour} {day} {month} {weekday}'.format(**self.__dict__)
+        return '{second} {minute} {hour} {day} {month} {weekday} {year}'.format(**self.__dict__)
 
     def __contains__(self, item): #item should always be a datetime #XXX confirm and revise
         if not isinstance(item, datetime.datetime): #hrm
