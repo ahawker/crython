@@ -83,7 +83,7 @@ min = lambda v: CronField(v, 0,    59,   {'*', '/', ',', '-'})
 hr  = lambda v: CronField(v, 0,    23,   {'*', '/', ',', '-'})
 dom = lambda v: CronField(v, 1,    31,   {'*', '/', ',', '-', '?', 'L', 'W'})
 mon = lambda v: CronField(v, 1,    12,   {'*', '/', ',', '-'})
-dow = lambda v: CronField(v, 0,    6,    {'*', '/', '-', '?', 'L', '#'})
+dow = lambda v: CronField(v, 0,    6,    {'*', '/', ',', '-', '?', 'L', '#'})
 yr  = lambda v: CronField(v, 1970, 2099, {'*', '/', ',', '-'})
 
 class CronExpression(object):
@@ -151,7 +151,7 @@ class CronTab(threading.Thread):
                 now = datetime.datetime.now()
                 for _, job in self.jobs.items():
                     if now in job.cron:
-                        job()
+                        threading.Thread(target=job).start()
 
                 time.sleep(1)
         except Exception:
@@ -174,7 +174,7 @@ def job(*args, **kwargs):
             except Exception as e:
                 return on_failure(e)
         f.cron = cron
-        f.name = '.'.join((func.__module__ or '__main__', func.__name__))
+        f.name = func.name = '.'.join((func.__module__ or '__main__', func.__name__))
         ctab.register(f.name, f)
         return f
     return decorator
