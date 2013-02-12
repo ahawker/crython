@@ -1,134 +1,170 @@
+__author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
+
 import crython
 import unittest
-from crython import sec
 
-from crython import tab
+class TestCronField(object):
+    def test_wildcard(self):
+        """
+        Test field created from a wildcard (*) character.
+        """
+        midpt = (self.min + self.max) / 2
+        field = self.field('*')
+        assert midpt in field
+        assert self.min in field
+        assert self.max in field
+        assert not (self.min - 1) in field
+        assert not (self.max + 1) in field
 
-__author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
-#
-#print 'Testing single digits...'
-#print 1 in sec('1')
-#print 2 in sec('1') #False
-#print 'Testing wildcards...'
-#print 1 in sec('*')
-#print 2 in sec('*')
-#print '1-10' in sec('*')
-#print None in sec('*')
-#print 'Testing ranges...'
-#print 1 in sec('1-10')
-#print 5 in sec('1-10')
-#print 10 in sec('1-10')
-#print 11 in sec('1-10') #False
-#print 'Testing ranges with steps...'
-#print 1 in sec('1-10/2')
-#print 2 in sec('1-10/2') #False
-#print 3 in sec('1-10/2')
-#print 10 in sec('1-10/2') #False
-#print 11 in sec('1-10/2') #False
-#print 'Testing with wildcard and steps...'
-#print 1 in sec('*/2') #False
-#print 2 in sec('*/2')
-#print 10 in sec('*/2')
-#print 0 in sec('*/2')
-#print 58 in sec('*/2')
-#print 59 in sec('*/2') #False
-#print 60 in sec('*/2') #False
-#print 'Testing comma separated values...'
-#print 1 in sec('1,2,5,10')
-#print 2 in sec('1,2,5,10')
-#print 4 in sec('1,2,5,10') #False
-#print 5 in sec('1,2,5,10')
-#print 10 in sec('1,2,5,10')
-#print 'Testing comma separated values with range...'
-#print 1 in sec('1,2,4-10')
-#print 5 in sec('1,2,4-10')
-#print 6 in sec('1,2,4-10')
-#print 10 in sec('1,2,4-10')
-#print 12 in sec('1,2,4-10') #False
-#print 'Testing comma separated values with range and step...'
-#print 1 in sec('1,2,4-10/2')
-#print 5 in sec('1,2,4-10/2') #False
-#print 6 in sec('1,2,4-10/2')
-#print 10 in sec('1,2,4-10/2')
-#print 12 in sec('1,2,4-10/2') #False
+    def test_integer(self):
+        """
+        Test field created from an integer object.
+        """
+        val = (self.max + self.min) / 2
+        field = self.field(val)
+        assert not (val - 1) in field
+        assert not (val + 1) in field
+        assert val in field
 
-class TestSecond(unittest.TestCase):
-    def test_second_init(self):
-        self.assertRaises(ValueError, sec, -1)
-        self.assertRaises(ValueError, sec, 60)
-        self.assertRaises(ValueError, sec, '?')
-        self.assertRaises(ValueError, sec, 'L')
-        self.assertRaises(ValueError, sec, 'W')
-        self.assertRaises(ValueError, sec, '#')
+    def test_csv(self):
+        """
+        Test field created from a comma separated list.
+        """
+        min = self.min + 1
+        midpt = (self.max + self.min) / 2
+        max = self.max - 1
+        field = self.field(','.join(map(str, (min, midpt, max))))
+        assert min in field
+        assert midpt in field
+        assert max in field
+        assert not (midpt - 1) in field
+        assert not (max + 10) in field
 
-    def test_second_wildcard(self):
-        s = sec('*')
-        assert 12 in s
-        assert 0 in s
-        assert 59 in s
-        assert not -1 in s
-        assert not 60 in s
+    def test_integer_string(self):
+        """
+        Test field created from a string which can be converted to an integer.
+        """
+        val = (self.max + self.min) / 2
+        field = self.field(str(val))
+        assert val in field
+        assert not (val - 1) in field
+        assert not (val + 1) in field
 
-    def test_second_integer(self):
-        s = sec(20)
-        assert not 19 in s
-        assert not 21 in s
-        assert 20 in s
+    def test_range(self):
+        """
+        Test field created from string representation of a range.
+        """
+        start = self.min + 10
+        stop = start + 10
+        midpt = (start + stop) / 2
+        field = self.field('{0}-{1}'.format(start, stop))
+        assert start in field
+        assert midpt in field
+        assert stop in field
+        assert not (start - 1) in field
+        assert not (stop + 1) in field
 
-    def test_second_csv(self):
-        s = sec('1,5,10')
-        assert 1 in s
-        assert 5 in s
-        assert 10 in s
-        assert not 3 in s
-        assert not 42 in s
+    def test_range_with_step(self):
+        """
+        Test field created from string representation of a range with a step.
+        """
+        start = self.min + 10
+        stop = start + 10
+        step = 2
+        field = self.field('{0}-{1}/{2}'.format(start, stop, step))
+        assert start in field
+        assert stop in field
+        assert (start + step) in field
+        assert not (stop + step) in field
+        assert not (start + (step - 1)) in field
+        assert not (start + (step + 1)) in field
 
-    def test_second_integer_string(self):
-        s = sec('42')
-        assert 42 in s
-        assert not 41 in s
-        assert not 43 in s
+    def test_wildcard_with_step(self):
+        """
+        Test field created from a wildcard with a step.
+        """
+        step = 2
+        field = self.field('*/{0}'.format(step))
+        assert self.min in field
+        assert (self.min + step) in field
+        assert not (self.min + 1) in field
 
-    def test_second_range(self):
-        s = sec('10-20')
-        assert 10 in s
-        assert 15 in s
-        assert 20 in s
-        assert not 9 in s
-        assert not 21 in s
+    def test_range_obj(self):
+        """
+        Test field created from an iterable. Ex: range(x,y)
+        """
+        start = self.min
+        stop = start + 20
+        midpt = (start + stop) / 2
+        field = self.field(range(start, stop))
+        assert start in field
+        assert midpt in field
+        assert stop in field  #TODO -- left failing as a reminder
+        assert not (stop + 1) in field
 
-    def test_second_range_with_step(self):
-        s = sec('10-20/2')
-        assert 10 in s
-        assert 20 in s
-        assert 12 in s
-        assert not 15 in s
-        assert not 8 in s
-        assert not 22 in s
+    def test_range_obj_with_step(self):
+        """
+        Test field created from an interable with step. Ex: range(x,y,z)
+        """
+        start = self.min
+        stop = start + 20
+        step = 2
+        field = self.field(range(start,stop, step))
+        assert start in field
+        assert stop in field #TODO -- left failing as a reminder
+        assert (start + step) in field
+        assert not (stop + step) in field
+        assert not (start + (step - 1)) in field
+        assert not (start + (step + 1)) in field
 
-    def test_second_wildcard_with_step(self):
-        s = sec('*/2')
-        assert 0 in s
-        assert 2 in s
-        assert 58 in s
-        assert not 1 in s
-        assert not 59 in s
+class TestCronSecond(unittest.TestCase, TestCronField):
+    def setUp(self):
+        self.field = crython.sec
+        self.min = 0
+        self.max = 59
+        self.specials = {'*', '/', ',', '-'}
 
-    def test_second_obj_range(self):
-        s = sec(range(0, 20))
-        assert 0 in s
-        assert 10 in s
-        assert 20 in s  #TODO -- left failing as a reminder
-        assert not 21 in s
+class TestCronMinute(unittest.TestCase, TestCronField):
+    def setUp(self):
+        self.field = crython.min
+        self.min = 0
+        self.max = 59
+        self.specials = {'*', '/', ',', '-'}
 
-    def test_second_obj_range_with_step(self):
-        s = sec(range(0, 20, 2))
-        assert 0 in s
-        assert 10 in s
-        assert 20 in s  #TODO -- left failing as a reminder
-        assert not 11 in s
-        assert not 17 in s
+class TestCronHour(unittest.TestCase, TestCronField):
+    def setUp(self):
+        self.field = crython.hr
+        self.min = 0
+        self.max = 23
+        self.specials = {'*', '/', ',', '-'}
 
+class TestCronDay(unittest.TestCase, TestCronField):
+    def setUp(self):
+        self.field = crython.dom
+        self.min = 1
+        self.max = 31
+        self.specials = {'*', '/', ',', '-', '?', 'L', 'W'}
+
+class TestCronMonth(unittest.TestCase, TestCronField):
+    def setUp(self):
+        self.field = crython.mon
+        self.min = 1
+        self.max = 12
+        self.specials = {'*', '/', ',', '-'}
+
+class TestCronDayOfWeek(unittest.TestCase, TestCronField):
+    def setUp(self):
+        self.field = crython.dow
+        self.min = 0
+        self.max = 6
+        self.specials = {'*', '/', '-', '?', 'L', '#'}
+
+class TestCronYear(unittest.TestCase, TestCronField):
+    def setUp(self):
+        self.field = crython.yr
+        self.min = 1970
+        self.max = 2099
+        self.specials = {'*', '/', ',', '-'}
 
 if __name__ == '__main__':
     unittest.main()
