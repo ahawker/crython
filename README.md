@@ -5,42 +5,59 @@ crython is a python implementation of [cron](http://en.wikipedia.org/wiki/Cron) 
 This module is currently under development.
 
 ### Usage
+Crython supports seven fields (seconds, minutes, hours, day of month, month, weekday, year).
 
-Crython supports seven fields (seconds, minutes, hours, day of month, month, weekday, year).  
-Call a function once a second:::
-
+Call a function once a second:  
+```python
     import crython
     
     #Fire once a minute.
-    crython.job(minute=0)
+    @crython.job(minute=0)
     def foo():
         print "... while heavy sack beatings are up a shocking nine hundred percent?"
+```
         
-Call a function every ten seconds:::
-
+Call a function every ten seconds:  
+```python
     #Fire every 10 seconds.
-    crython.job(second=range(0,60,10))
+    @crython.job(second=range(0,60,10))
     def foo():
         print "I'm a big four-eyed lame-o and I wear the same stupid sweater every day."
-        
-Call functions with a full cron expression:::
+```
 
+Call a function with a single cron expression:
+```python
+    #Fire every 10 seconds.
+    @crython.job(second='*/10')
+    def foo():
+        print "Hail to the thee Kamp Krusty..."
+```
+        
+Call functions with a full cron expression:  
+```python
     #Fire once a week.
     crython.job(expr='0 0 0 * * 0 *')
     def foo():
         print "Back in line, maggot!"
+```
 
-Call functions with arguments:::
-
+Call functions with positional and/or keyword arguments:  
+```python
     #Fire every second.
-    crython.job(second=0)
-    def sum(x, y):
-        print 'Sum={0}'.format(x + y)
+    crython.job(second=0, 10, 20, name='Homer Simpson')
+    def sum(x, y, name='John Smith'):
+        print "Hello {0}. The sum is {1}".format(name, x+y)
+```
 
-Start the global job scheduler:::
-    
-    if __name__ == '__main__':
-        crython.tab.start()
+Start the global job scheduler:  
+```python
+    crython.tab.start()
+```
+
+### TODO
+- Keyword support (yearly, weekly, daily, etc)
+- Support "L", "W" and "#" specials.
+- Determine time delta from now -> next time expression is valid.
 
 ### Contributing
 If you would like to contribute, simply fork the repository, push your changes and send a pull request.
