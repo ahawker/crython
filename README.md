@@ -36,7 +36,7 @@ Call a function with a single cron expression:
 Call functions with a full cron expression:  
 ```python
     #Fire once a week.
-    crython.job(expr='0 0 0 * * 0 *')
+    @crython.job(expr='0 0 0 * * 0 *')
     def foo():
         print "Back in line, maggot!"
 ```
@@ -44,7 +44,7 @@ Call functions with a full cron expression:
 Call functions with positional and/or keyword arguments:  
 ```python
     #Fire every second.
-    crython.job(second=0, 10, 20, name='Homer Simpson')
+    @crython.job(second=0, 10, 20, name='Homer Simpson')
     def sum(x, y, name='John Smith'):
         print "Hello {0}. The sum is {1}".format(name, x+y)
 ```
