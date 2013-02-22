@@ -70,7 +70,7 @@ Start the global job scheduler:
 If you would like to contribute, simply fork the repository, push your changes and send a pull request.
 
 ### License
-Crython is available under the [MIT license](https://github.com/ahawker/crython/blob/master/license.md).
+Crython is available under the [MIT license](https://github.com/ahawker/crython/blob/master/LICENSE.md).
 
 ### See Other
 There are similar python cron libraries out there.
