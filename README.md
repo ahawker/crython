@@ -4,6 +4,12 @@ crython is a lightweight task (function) scheduler using [cron](http://en.wikipe
 ### Status
 This module is currently under development.
 
+### Installation
+To install crython, simply:
+```bash
+    $ pip install crython
+```
+
 ### Usage
 Crython supports seven fields (seconds, minutes, hours, day of month, month, weekday, year).
 
