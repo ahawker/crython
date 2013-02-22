@@ -1,5 +1,5 @@
 # crython [![Build Status](https://travis-ci.org/ahawker/crython.png)](https://travis-ci.org/ahawker/crython)
-crython is a python implementation of [cron](http://en.wikipedia.org/wiki/Cron) which can schedule tasks (functions) from standard cron expressions or python objects.
+crython is a lightweight task (function) scheduler using [cron](http://en.wikipedia.org/wiki/Cron) expressions written in python.
 
 ### Status
 This module is currently under development.
@@ -7,7 +7,7 @@ This module is currently under development.
 ### Usage
 Crython supports seven fields (seconds, minutes, hours, day of month, month, weekday, year).
 
-Call a function once a second:  
+Call a function once a minute:
 ```python
     import crython
     
@@ -45,13 +45,14 @@ Call functions with positional and/or keyword arguments:
 ```python
     #Fire every second.
     @crython.job(second=0, 10, 20, name='Homer Simpson')
-    def sum(x, y, name='John Smith'):
+    def sum(x, y, name):
         print "Hello {0}. The sum is {1}".format(name, x+y)
 ```
 
 Start the global job scheduler:  
 ```python
-    crython.tab.start()
+    if __name__ == '__main__':
+        crython.tab.start()
 ```
 
 ### TODO
@@ -66,5 +67,7 @@ If you would like to contribute, simply fork the repository, push your changes a
 Crython is available under the [MIT license](https://github.com/ahawker/crython/blob/master/license.md).
 
 ### See Other
-There are other python implementations of cron out there.
-See: [pycron](http://www.kalab.com/freeware/pycron/pycron.htm), [python-crontab](http://pypi.python.org/pypi/python-crontab/).
+There are similar python cron libraries out there.
+See: [pycron](http://www.kalab.com/freeware/pycron/pycron.htm),
+[python-crontab](http://pypi.python.org/pypi/python-crontab/),
+[cronex](https://github.com/jameseric/cronex).
