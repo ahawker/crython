@@ -1,6 +1,6 @@
 __author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
 
-import crython
+from crython.crython import sec, min, hr, dom, mon, dow, yr
 import unittest
 
 class CronField(object):
@@ -119,49 +119,49 @@ class CronField(object):
 
 class TestCronSecond(unittest.TestCase, CronField):
     def setUp(self):
-        self.field = crython.sec
+        self.field = sec
         self.min = 0
         self.max = 59
         self.specials = {'*', '/', ',', '-'}
 
 class TestCronMinute(unittest.TestCase, CronField):
     def setUp(self):
-        self.field = crython.min
+        self.field = min
         self.min = 0
         self.max = 59
         self.specials = {'*', '/', ',', '-'}
 
 class TestCronHour(unittest.TestCase, CronField):
     def setUp(self):
-        self.field = crython.hr
+        self.field = hr
         self.min = 0
         self.max = 23
         self.specials = {'*', '/', ',', '-'}
 
 class TestCronDay(unittest.TestCase, CronField):
     def setUp(self):
-        self.field = crython.dom
+        self.field = dom
         self.min = 1
         self.max = 31
         self.specials = {'*', '/', ',', '-', '?', 'L', 'W'}
 
 class TestCronMonth(unittest.TestCase, CronField):
     def setUp(self):
-        self.field = crython.mon
+        self.field = mon
         self.min = 1
         self.max = 12
         self.specials = {'*', '/', ',', '-'}
 
 class TestCronDayOfWeek(unittest.TestCase, CronField):
     def setUp(self):
-        self.field = crython.dow
+        self.field = dow
         self.min = 0
         self.max = 6
         self.specials = {'*', '/', '-', '?', 'L', '#'}
 
 class TestCronYear(unittest.TestCase, CronField):
     def setUp(self):
-        self.field = crython.yr
+        self.field = yr
         self.min = 1970
         self.max = 2099
         self.specials = {'*', '/', ',', '-'}
