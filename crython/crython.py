@@ -1,3 +1,5 @@
+__author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
+
 import calendar
 import functools
 import logging
@@ -6,9 +8,6 @@ import datetime
 import threading
 import collections
 import time
-
-__author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
-__all__ = ['job', 'tab', 'sec', 'min', 'hr', 'dom', 'mon', 'dow', 'yr']
 
 LOG = logging.getLogger(__name__)
 
@@ -90,9 +89,18 @@ class CronExpression(object):
     STRUCT_TIME = ('year', 'month', 'day', 'hour', 'minute', 'second', 'weekday')           #time.struct_time fields
     FIELD_NAMES = ('second', 'minute', 'hour', 'day', 'month', 'weekday', 'year', 'expr')   #supported kwargs
     FIELDS = dict(zip(FIELD_NAMES, (sec, min, hr, dom, mon, dow, yr)))                      #field name->init func
+    KEYWORDS = {'@yearly':   '0 0 0 1 1 *',
+                '@annually': '0 0 0 1 1 *',
+                '@monthly':  '0 0 0 1 * *',
+                '@weekly':   '0 0 0 * * 0',
+                '@daily':    '0 0 0 * * *',
+                '@hourly':   '0 0 * * * *',
+                '@minutely': '0 * * * * *',
+                '@reboot':   None} #TODO
 
     def __init__(self, **kwargs):
-        expression = dict(zip(self.FIELD_NAMES, kwargs.pop('expr', '* * * * * * *').split()))
+        expression = self.KEYWORDS.get(kwargs.get('expr'), '* * * * * * *')
+        expression = dict(zip(self.FIELD_NAMES, expression.split()))
         for field, ctor in self.FIELDS.items():
             setattr(self, field, ctor(kwargs.get(field, expression.get(field, '*'))))
 
@@ -106,15 +114,6 @@ class CronExpression(object):
             return False
         item = dict(zip(self.STRUCT_TIME, item.timetuple()[:7]))
         return all(item[k] in v for k,v in self.__dict__.items())
-
-KEYWORDS = {'yearly'   : CronExpression(expr='0 0 0 1 1 *'),
-            'annually' : CronExpression(expr='0 0 0 1 1 *'),
-            'monthly'  : CronExpression(expr='0 0 0 1 * *'),
-            'weekly'   : CronExpression(expr='0 0 0 * * 0'),
-            'daily'    : CronExpression(expr='0 0 0 * * *'),
-            'hourly'   : CronExpression(expr='0 0 * * * *'),
-            'minutely' : CronExpression(expr='0 * * * * *'),
-            'reboot'   : None} #@reboot
 
 class CronTab(threading.Thread):
     def __init__(self, *args, **kwargs):
