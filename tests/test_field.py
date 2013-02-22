@@ -3,7 +3,7 @@ __author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
 import crython
 import unittest
 
-class TestCronField(object):
+class CronField(object):
     def test_wildcard(self):
         """
         Test field created from a wildcard (*) character.
@@ -99,7 +99,7 @@ class TestCronField(object):
         field = self.field(range(start, stop))
         assert start in field
         assert midpt in field
-        assert stop in field  #TODO -- left failing as a reminder
+        assert not stop in field
         assert not (stop + 1) in field
 
     def test_range_obj_with_step(self):
@@ -111,55 +111,55 @@ class TestCronField(object):
         step = 2
         field = self.field(range(start,stop, step))
         assert start in field
-        assert stop in field #TODO -- left failing as a reminder
+        assert not stop in field
         assert (start + step) in field
         assert not (stop + step) in field
         assert not (start + (step - 1)) in field
         assert not (start + (step + 1)) in field
 
-class TestCronSecond(unittest.TestCase, TestCronField):
+class TestCronSecond(unittest.TestCase, CronField):
     def setUp(self):
         self.field = crython.sec
         self.min = 0
         self.max = 59
         self.specials = {'*', '/', ',', '-'}
 
-class TestCronMinute(unittest.TestCase, TestCronField):
+class TestCronMinute(unittest.TestCase, CronField):
     def setUp(self):
         self.field = crython.min
         self.min = 0
         self.max = 59
         self.specials = {'*', '/', ',', '-'}
 
-class TestCronHour(unittest.TestCase, TestCronField):
+class TestCronHour(unittest.TestCase, CronField):
     def setUp(self):
         self.field = crython.hr
         self.min = 0
         self.max = 23
         self.specials = {'*', '/', ',', '-'}
 
-class TestCronDay(unittest.TestCase, TestCronField):
+class TestCronDay(unittest.TestCase, CronField):
     def setUp(self):
         self.field = crython.dom
         self.min = 1
         self.max = 31
         self.specials = {'*', '/', ',', '-', '?', 'L', 'W'}
 
-class TestCronMonth(unittest.TestCase, TestCronField):
+class TestCronMonth(unittest.TestCase, CronField):
     def setUp(self):
         self.field = crython.mon
         self.min = 1
         self.max = 12
         self.specials = {'*', '/', ',', '-'}
 
-class TestCronDayOfWeek(unittest.TestCase, TestCronField):
+class TestCronDayOfWeek(unittest.TestCase, CronField):
     def setUp(self):
         self.field = crython.dow
         self.min = 0
         self.max = 6
         self.specials = {'*', '/', '-', '?', 'L', '#'}
 
-class TestCronYear(unittest.TestCase, TestCronField):
+class TestCronYear(unittest.TestCase, CronField):
     def setUp(self):
         self.field = crython.yr
         self.min = 1970
