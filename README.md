@@ -55,6 +55,14 @@ Call functions with positional and/or keyword arguments:
         print "Hello {0}. The sum is {1}".format(name, x+y)
 ```
 
+Call functions with [predefined keywords](http://en.wikipedia.org/wiki/Cron#Predefined_scheduling_definitions):
+```python
+    #Fire once a day.
+    @crython.job(expr='@daily')
+    def foo():
+        print "That's where I saw the leprechaun. He tells me to burn things!"
+```
+
 Start the global job scheduler:  
 ```python
     if __name__ == '__main__':
