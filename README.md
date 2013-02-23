@@ -82,6 +82,7 @@ Crython is available under the [MIT license](https://github.com/ahawker/crython/
 
 ### See Other
 There are similar python cron libraries out there.
-See: [pycron](http://www.kalab.com/freeware/pycron/pycron.htm),
+See:
+[pycron](http://www.kalab.com/freeware/pycron/pycron.htm),
 [python-crontab](http://pypi.python.org/pypi/python-crontab/),
 [cronex](https://github.com/jameseric/cronex).
