@@ -122,49 +122,49 @@ class TestCronSecond(unittest.TestCase, CronField):
         self.field = sec
         self.min = 0
         self.max = 59
-        self.specials = {'*', '/', ',', '-'}
+        self.specials = set(['*', '/', ',', '-'])
 
 class TestCronMinute(unittest.TestCase, CronField):
     def setUp(self):
         self.field = min
         self.min = 0
         self.max = 59
-        self.specials = {'*', '/', ',', '-'}
+        self.specials = set(['*', '/', ',', '-'])
 
 class TestCronHour(unittest.TestCase, CronField):
     def setUp(self):
         self.field = hr
         self.min = 0
         self.max = 23
-        self.specials = {'*', '/', ',', '-'}
+        self.specials = set(['*', '/', ',', '-'])
 
 class TestCronDay(unittest.TestCase, CronField):
     def setUp(self):
         self.field = dom
         self.min = 1
         self.max = 31
-        self.specials = {'*', '/', ',', '-', '?', 'L', 'W'}
+        self.specials = set(['*', '/', ',', '-', '?', 'L', 'W'])
 
 class TestCronMonth(unittest.TestCase, CronField):
     def setUp(self):
         self.field = mon
         self.min = 1
         self.max = 12
-        self.specials = {'*', '/', ',', '-'}
+        self.specials = set(['*', '/', ',', '-'])
 
 class TestCronDayOfWeek(unittest.TestCase, CronField):
     def setUp(self):
         self.field = dow
         self.min = 0
         self.max = 6
-        self.specials = {'*', '/', '-', '?', 'L', '#'}
+        self.specials = set(['*', '/', '-', '?', 'L', '#'])
 
 class TestCronYear(unittest.TestCase, CronField):
     def setUp(self):
         self.field = yr
         self.min = 1970
         self.max = 2099
-        self.specials = {'*', '/', ',', '-'}
+        self.specials = set(['*', '/', ',', '-'])
 
 if __name__ == '__main__':
     unittest.main()
