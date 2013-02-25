@@ -19,7 +19,7 @@ PHRASES  = dict(DAY_NAME.items() + DAY_ABBR.items() + MON_NAME.items() + MON_ABB
 PHRASES_REGEX = re.compile('|'.join(PHRASES.keys()).lstrip('|'), flags=re.IGNORECASE)
 
 class CronField(object):
-    SPECIALS   = {'*', '/', '%', ',', '-', 'L', 'W', '#', '?'}
+    SPECIALS   = set(['*', '/', '%', ',', '-', 'L', 'W', '#', '?'])
 
     def __init__(self, *args):
         self.value, self.min, self.max, self.specials = args
@@ -77,13 +77,13 @@ class CronField(object):
         return PHRASES_REGEX.sub(_repl, str(value))
 
 #funcs for field creation so we don't need to subclass CronField with min/max/specials
-sec = lambda v: CronField(v, 0,    59,   {'*', '/', ',', '-'})
-min = lambda v: CronField(v, 0,    59,   {'*', '/', ',', '-'})
-hr  = lambda v: CronField(v, 0,    23,   {'*', '/', ',', '-'})
-dom = lambda v: CronField(v, 1,    31,   {'*', '/', ',', '-', '?', 'L', 'W'})
-mon = lambda v: CronField(v, 1,    12,   {'*', '/', ',', '-'})
-dow = lambda v: CronField(v, 0,    6,    {'*', '/', ',', '-', '?', 'L', '#'})
-yr  = lambda v: CronField(v, 1970, 2099, {'*', '/', ',', '-'})
+sec = lambda v: CronField(v, 0,    59,   set(['*', '/', ',', '-']))
+min = lambda v: CronField(v, 0,    59,   set(['*', '/', ',', '-']))
+hr  = lambda v: CronField(v, 0,    23,   set(['*', '/', ',', '-']))
+dom = lambda v: CronField(v, 1,    31,   set(['*', '/', ',', '-', '?', 'L', 'W']))
+mon = lambda v: CronField(v, 1,    12,   set(['*', '/', ',', '-']))
+dow = lambda v: CronField(v, 0,    6,    set(['*', '/', ',', '-', '?', 'L', '#']))
+yr  = lambda v: CronField(v, 1970, 2099, set(['*', '/', ',', '-']))
 
 class CronExpression(object):
     STRUCT_TIME = ('year', 'month', 'day', 'hour', 'minute', 'second', 'weekday')           #time.struct_time fields
