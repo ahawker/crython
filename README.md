@@ -5,9 +5,15 @@ crython is a lightweight task (function) scheduler using [cron](http://en.wikipe
 This module is currently under development.
 
 ### Installation
-To install crython, simply:
+To install crython from [pip](https://pypi.python.org/pypi/pip):
 ```bash
     $ pip install crython
+```
+
+To install crython from source:
+```bash
+    $ git clone git@github.com:ahawker/crython.git
+    $ python setup.py install
 ```
 
 ### Usage
