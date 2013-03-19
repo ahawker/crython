@@ -24,9 +24,9 @@ Call a function once a minute:
     import crython
     
     #Fire once a minute.
-    @crython.job(minute=0)
+    @crython.job(second=0)
     def foo():
-        print "... while heavy sack beatings are up a shocking nine hundred percent?"
+        print "... while heavy sack beatings are up a shocking nine hundred percent? - Kent Brockman"
 ```
         
 Call a function every ten seconds:  
@@ -34,7 +34,7 @@ Call a function every ten seconds:
     #Fire every 10 seconds.
     @crython.job(second=range(0,60,10))
     def foo():
-        print "I'm a big four-eyed lame-o and I wear the same stupid sweater every day."
+        print "I'm a big four-eyed lame-o and I wear the same stupid sweater every day. - Homer's Brain"
 ```
 
 Call a function with a single cron expression:
@@ -42,31 +42,38 @@ Call a function with a single cron expression:
     #Fire every 10 seconds.
     @crython.job(second='*/10')
     def foo():
-        print "Hail to the thee Kamp Krusty..."
+        print "Hail to the thee Kamp Krusty... - Kampers"
 ```
         
-Call functions with a full cron expression:  
+Call a function with a full cron expression:
 ```python
     #Fire once a week.
     @crython.job(expr='0 0 0 * * 0 *')
     def foo():
-        print "Back in line, maggot!"
+        print "Back in line, maggot! - Kearny"
 ```
 
-Call functions with positional and/or keyword arguments:  
+Call a function with positional and/or keyword arguments:
 ```python
     #Fire every second.
-    @crython.job(second=0, 10, 20, name='Homer Simpson')
-    def sum(x, y, name):
-        print "Hello {0}. The sum is {1}".format(name, x+y)
+    @job('safety gloves', second='*', name='Homer Simpson')
+    def foo(item, name):
+        print "Well, I don't need {0}, because I'm {1}. -- Grimey".format(item, name)
 ```
 
-Call functions with [predefined keywords](http://en.wikipedia.org/wiki/Cron#Predefined_scheduling_definitions):
+Call a function with [predefined keywords](http://en.wikipedia.org/wiki/Cron#Predefined_scheduling_definitions):
 ```python
     #Fire once a day.
     @crython.job(expr='@daily')
     def foo():
-        print "That's where I saw the leprechaun. He tells me to burn things!"
+        print "That's where I saw the leprechaun. He tells me to burn things! - Ralph Wiggum"
+```
+
+```python
+    #Fire once immediately after scheduler starts.
+    @crython.job(expr='@reboot')
+    def foo():
+        print "I call the big one bitey. - Homer Simpson"
 ```
 
 Start the global job scheduler:  
@@ -76,7 +83,6 @@ Start the global job scheduler:
 ```
 
 ### TODO
-- Keyword support (yearly, weekly, daily, etc)
 - Support "L", "W" and "#" specials.
 - Determine time delta from now -> next time expression is valid.
 
