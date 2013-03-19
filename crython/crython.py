@@ -1,3 +1,5 @@
+import multiprocessing
+
 __author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
 
 import calendar
@@ -116,6 +118,9 @@ class CronExpression(object):
         return all(item[k] in v for k,v in self.__dict__.items())
 
 class CronTab(threading.Thread):
+    CONTEXTS = {'thread': lambda job: threading.Thread(target=job).start(),
+                          'process': lambda job: multiprocessing.Process(target=job).start()}
+
     def __init__(self, *args, **kwargs):
         super(CronTab, self).__init__(*args, **kwargs)
         self.name = kwargs.get('name', 'CronTab ({0})'.format(id(self)))
@@ -139,7 +144,7 @@ class CronTab(threading.Thread):
         self.proc_event.clear()
 
     def run(self):
-        LOG.debug('{0} started.'.format(self.name))
+        LOG.info('{0} started.'.format(self.name))
         try:
             while True:
                 self.proc_event.wait()
@@ -150,30 +155,31 @@ class CronTab(threading.Thread):
                 now = datetime.datetime.now()
                 for _, job in self.jobs.items():
                     if now in job.cron:
-                        threading.Thread(target=job).start()
+                        self.CONTEXTS[job.ctx](job)
 
                 time.sleep(1)
-        except Exception:
+        except Exception as e:
             LOG.exception('{0} encountered unhandled exception. '.format(self.name))
 
 tab = CronTab()
 
 def job(*args, **kwargs):
-    ctab = kwargs.pop('tab', tab)
+    crontab = kwargs.pop('tab', tab)
+    ctx = kwargs.pop('ctx', 'thread')
     on_success = kwargs.pop('on_success', lambda ctx: None)
     on_failure = kwargs.pop('on_failure', lambda ctx: None)
-    cron = CronExpression(**kwargs)
-    fargs = dict((k, kwargs[k]) for k in kwargs.keys() if k not in CronExpression.FIELD_NAMES) #func specific kwargs
+    fkwargs = dict((k, kwargs[k]) for k in kwargs.keys() if k not in CronExpression.FIELD_NAMES) #func specific kwargs
 
     def decorator(func):
         @functools.wraps(func)
         def f():
             try:
-                return on_success(func(*args, **fargs))
+                return on_success(func(*args, **fkwargs))
             except Exception as e:
                 return on_failure(e)
-        f.cron = cron
+        f.cron = CronExpression(**kwargs)
+        f.ctx = ctx
         f.name = func.name = '.'.join((func.__module__ or '__main__', func.__name__))
-        ctab.register(f.name, f)
+        crontab.register(f.name, f)
         return f
     return decorator
