@@ -97,10 +97,10 @@ class CronExpression(object):
     KEYWORDS = {'@yearly':   '0 0 0 0 1 1 *',
                 '@annually': '0 0 0 0 1 1 *',
                 '@monthly':  '0 0 0 0 1 * *',
-                '@weekly':   '0 0 0 0 * * 0',
-                '@daily':    '0 0 0 0 * * *',
-                '@hourly':   '0 0 0 * * * *',
-                '@minutely': '0 0 * * * * *'}
+                '@weekly':   '0 0 0 0 * 0 *',
+                '@daily':    '0 0 0 * * * *',
+                '@hourly':   '0 0 * * * * *',
+                '@minutely': '0 * * * * * *'}
 
     def __init__(self, **kwargs):
         expression = self.KEYWORDS.get(kwargs.get('expr'), '* * * * * * *')
@@ -167,7 +167,7 @@ class CronTab(threading.Thread):
         except Exception:
             LOG.exception('{0} encountered unhandled exception. '.format(self.name))
 
-tab = CronTab()
+tab = CronTab(name='global')
 
 def job(*args, **kwargs):
     crontab = kwargs.pop('tab', tab)
