@@ -94,13 +94,13 @@ class CronExpression(object):
     STRUCT_TIME = ('year', 'month', 'day', 'hour', 'minute', 'second', 'weekday')           #time.struct_time fields
     FIELD_NAMES = ('second', 'minute', 'hour', 'day', 'month', 'weekday', 'year', 'expr')   #supported kwargs
     FIELDS = dict(zip(FIELD_NAMES, (sec, min, hr, dom, mon, dow, yr)))                      #field name->init func
-    KEYWORDS = {'@yearly':   '0 0 0 1 1 *',
-                '@annually': '0 0 0 1 1 *',
-                '@monthly':  '0 0 0 1 * *',
-                '@weekly':   '0 0 0 * * 0',
-                '@daily':    '0 0 0 * * *',
-                '@hourly':   '0 0 * * * *',
-                '@minutely': '0 * * * * *'}
+    KEYWORDS = {'@yearly':   '0 0 0 0 1 1 *',
+                '@annually': '0 0 0 0 1 1 *',
+                '@monthly':  '0 0 0 0 1 * *',
+                '@weekly':   '0 0 0 0 * * 0',
+                '@daily':    '0 0 0 0 * * *',
+                '@hourly':   '0 0 0 * * * *',
+                '@minutely': '0 0 * * * * *'}
 
     def __init__(self, **kwargs):
         expression = self.KEYWORDS.get(kwargs.get('expr'), '* * * * * * *')
