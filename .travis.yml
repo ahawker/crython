@@ -6,3 +6,5 @@ install:
   - pip install --use-mirrors tox
   - pip install --use-mirrors coveralls
 script: TOXENV=py$(echo $TRAVIS_PYTHON_VERSION | tr -d .) tox
+after_success:
+  coveralls
