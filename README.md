@@ -61,7 +61,7 @@ Call a function with positional and/or keyword arguments:
         print "Well, I don't need {0}, because I'm {1}. -- Grimey".format(item, name)
 ```
 
-Call a function with [predefined keywords](http://en.wikipedia.org/wiki/Cron#Predefined_scheduling_definitions):
+Call a function using [predefined keywords](https://github.com/ahawker/crython#keywords):
 ```python
     #Fire once a day.
     @crython.job(expr='@daily')
@@ -82,7 +82,6 @@ Call a function and run it within a separate process:
     @crython.job(expr='@hourly', ctx='process')
     def foo():
         print "No, no, dig up stupid. - Chief Wiggum"
-
 ```
 
 Start the global job scheduler:  
@@ -90,6 +89,17 @@ Start the global job scheduler:
     if __name__ == '__main__':
         crython.tab.start()
 ```
+
+### Keywords
+| Entry | Description | Equivalent To |
+| --- | --- | --- |
+| @yearly/@annually | Run once a year at midnight in the morning of January 1 | 0 0 0 0 1 1 * |
+| @monthly | Run once a month at midnight in the morning of the first of the month | 0 0 0 0 1 * * |
+| @weekly | Run once a week at midnight in the morning of Sunday | 0 0 0 0 * 0 * |
+| @daily | Run once a day at midnight | 0 0 0 * * * * |
+| @hourly | Run once an hour at the beginning of the hour | 0 0 * * * * * |
+| @minutely | Run once a minute at the beginning of the minute | 0 * * * * * * |
+| @reboot | Run once at startup | @reboot |
 
 ### TODO
 - Support "L", "W" and "#" specials.
