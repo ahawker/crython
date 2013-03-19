@@ -76,6 +76,15 @@ Call a function with [predefined keywords](http://en.wikipedia.org/wiki/Cron#Pre
         print "I call the big one bitey. - Homer Simpson"
 ```
 
+Call a function and run it within a separate process:
+```python
+    #Fire every hour.
+    @crython.job(expr='@hourly', ctx='process')
+    def foo():
+        print "No, no, dig up stupid. - Chief Wiggum"
+
+```
+
 Start the global job scheduler:  
 ```python
     if __name__ == '__main__':
