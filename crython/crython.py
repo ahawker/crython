@@ -1,5 +1,3 @@
-import multiprocessing
-
 __author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
 
 import calendar
@@ -9,6 +7,7 @@ import re
 import datetime
 import threading
 import collections
+import multiprocessing
 import time
 
 LOG = logging.getLogger(__name__)
@@ -39,14 +38,13 @@ class CronField(object):
     def __repr__(self):
         return '<CronField: {0}>'.format(self)
     def __str__(self):
-        if isinstance(self.value, collections.Iterable) and len(self.value) >= 5:
-            return '[{0}...{1}]'.format(self.value[0], self.value[-1])
         return str(self.value)
 
     def __contains__(self, item):
         """
         Determines if the given time is 'within' the time denoted by this individual field.
         """
+        year,month = None,None
         value = self.value
         if isinstance(value, (int, long)):                          #standard numeric (python obj)
             return value == item
@@ -55,12 +53,17 @@ class CronField(object):
             for value in value.split(','):                          #comma separated values (ex: 1,4,10)
                 value = re.split(r'[-/]', value)                    #separate range and step characters
                 if len(value) == 1:
-                    if value[0] == '*':                             #single wildcard (ex: *)
+                    value = value[0]
+                    if value == '*':                                #single wildcard (ex: *)
                         return self.min <= item <= self.max
-                    result |=  int(value[0]) == item                #single digit (ex: 10)
+                    if value == 'L':                                #last day of month (ex: L ==> 31)
+                        return self.max == item                     #TODO: last_dom not necessary to be max (feb)
+                    result |=  int(value) == item                   #single digit (ex: 10)
                     continue
                 if value[0] == '*':                                 #wildcard w/ step (ex: */2 ==> 0-59/2)
                     value = [self.min, self.max, value[1]]
+                if value[1] == 'L':                                 #last weekday of month (ex: 5L ==> last fri)
+                    last_dom = calendar.monthrange(year, month)[-1]
                 start, stop = sorted(map(int, value[:2]))           #range (ex: 0-10)
                 step = int(value[2]) if len(value) > 2 else None    #range w/ step (ex: 0-10/2)
                 result |= start <= item <= stop and (not step or (item + start) % step == 0)
@@ -97,8 +100,7 @@ class CronExpression(object):
                 '@weekly':   '0 0 0 * * 0',
                 '@daily':    '0 0 0 * * *',
                 '@hourly':   '0 0 * * * *',
-                '@minutely': '0 * * * * *',
-                '@reboot':   None} #TODO
+                '@minutely': '0 * * * * *'}
 
     def __init__(self, **kwargs):
         expression = self.KEYWORDS.get(kwargs.get('expr'), '* * * * * * *')
@@ -119,7 +121,7 @@ class CronExpression(object):
 
 class CronTab(threading.Thread):
     CONTEXTS = {'thread': lambda job: threading.Thread(target=job).start(),
-                          'process': lambda job: multiprocessing.Process(target=job).start()}
+                'process': lambda job: multiprocessing.Process(target=job).start()}
 
     def __init__(self, *args, **kwargs):
         super(CronTab, self).__init__(*args, **kwargs)
@@ -136,7 +138,7 @@ class CronTab(threading.Thread):
     def deregister(self, name):
         if name in self.jobs:
             del self.jobs[name]
-            if len(self.jobs) == 0:
+            if not len(self.jobs):
                 self.proc_event.clear()
 
     def stop(self):
@@ -146,11 +148,15 @@ class CronTab(threading.Thread):
     def run(self):
         LOG.info('{0} started.'.format(self.name))
         try:
+            self.proc_event.wait()
+            for job in (self.jobs.pop(k) for (k,v) in self.jobs.items() if v.reboot):
+                self.CONTEXTS[job.ctx](job)
+
             while True:
                 self.proc_event.wait()
                 if self.stop_event.is_set():
                     LOG.info('{0} stopped.'.format(self.name))
-                    return
+                    break
 
                 now = datetime.datetime.now()
                 for _, job in self.jobs.items():
@@ -158,7 +164,7 @@ class CronTab(threading.Thread):
                         self.CONTEXTS[job.ctx](job)
 
                 time.sleep(1)
-        except Exception as e:
+        except Exception:
             LOG.exception('{0} encountered unhandled exception. '.format(self.name))
 
 tab = CronTab()
@@ -180,6 +186,7 @@ def job(*args, **kwargs):
         f.cron = CronExpression(**kwargs)
         f.ctx = ctx
         f.name = func.name = '.'.join((func.__module__ or '__main__', func.__name__))
+        f.reboot = kwargs.get('expr', '') == '@reboot'
         crontab.register(f.name, f)
         return f
     return decorator
