@@ -101,7 +101,7 @@ class CronExpression(object):
     def __init__(self, **kwargs):
         expression = kwargs.get('expr')
         if expression.startswith('@'):
-            expression = self.KEYWORDS.get(expr, '* * * * * * *')
+            expression = self.KEYWORDS.get(expression, '* * * * * * *')
         
         expression = dict(zip(self.FIELD_NAMES, expression.split()))
         for field, ctor in self.FIELDS.items():
