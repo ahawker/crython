@@ -1,4 +1,7 @@
-# crython [![Build Status](https://travis-ci.org/ahawker/crython.png)](https://travis-ci.org/ahawker/crython)
+# crython  
+[![Build Status](https://travis-ci.org/ahawker/crython.png)](https://travis-ci.org/ahawker/crython)
+[![Coverage Status](https://coveralls.io/repos/ahawker/crython/badge.png?branch=master)](https://coveralls.io/r/ahawker/crython)
+
 crython is a lightweight task (function) scheduler using [cron](http://en.wikipedia.org/wiki/Cron) expressions written in python.
 
 ### Status
