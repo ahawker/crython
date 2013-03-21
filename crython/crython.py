@@ -71,6 +71,9 @@ class CronField(object):
         if isinstance(value, collections.Iterable):                 #iterable (assumed range() python obj)
             return item in value
 
+    def __eq__(self, other):
+        return self.value == other
+
     @staticmethod
     def sub_english_phrases(value):
         """
@@ -119,6 +122,14 @@ class CronExpression(object):
             return False
         item = dict(zip(self.STRUCT_TIME, item.timetuple()[:7]))
         return all(item[k] in v for k,v in self.__dict__.items())
+
+    def __eq__(self, other):
+        if isinstance(other, basestring):
+            other = CronExpression(expr=other)
+        if not isinstance(other, CronExpression):
+            return False
+        return all(getattr(other, k) == v for (k,v) in self.__dict__.items())
+
 
 class CronTab(threading.Thread):
     CONTEXTS = {'thread': lambda job: threading.Thread(target=job).start(),
