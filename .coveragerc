@@ -1,5 +1,8 @@
 [run]
-omit = .*
+omit =
+    .*
+    */test*
+    *__init__*
 
 [report]
 exclude_lines =
