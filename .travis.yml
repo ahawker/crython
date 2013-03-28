@@ -4,7 +4,7 @@ python:
   - "2.7"
 install:
   - pip install --use-mirrors tox
-  - pip install --use-mirrors coveralls
+  - pip install --use-mirrors python-coveralls
 script: TOXENV=py$(echo $TRAVIS_PYTHON_VERSION | tr -d .) tox
 after_success:
-  coveralls
+  - coveralls
