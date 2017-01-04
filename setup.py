@@ -1,24 +1,40 @@
-__author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
+"""
+    crython
+    ~~~~~~~
 
-import crython
+    Cron scheduling for python functions.
+
+    :copyright: (c) 2013 Andrew Hawker.
+    :license: MIT, see LICENSE for more details.
+"""
+
+import ast
+import re
 
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
+
+version_regex = re.compile(r'__version__\s+=\s+(.*)')
+
+
+def get_version():
+    with open('crython/__init__.py', 'r') as f:
+        return str(ast.literal_eval(version_regex.search(f.read()).group(1)))
+
+
 setup(
-    name=crython.__name__,
-    version=crython.__version__,
-    description='Cron scheduling for python functions.',
-    long_description=open('README.md').read(),
+    name='crython',
+    version=get_version(),
     author='Andrew Hawker',
     author_email='andrew.r.hawker@gmail.com',
     url='https://github.com/ahawker/crython',
-    license=open('LICENSE.md').read(),
-    package_dir={'crython': 'crython'},
+    license='MIT',
+    description='Cron scheduling for python functions.',
+    long_description=__doc__,
     packages=['crython'],
-    test_suite='tests',
     classifiers=(
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
