@@ -4,6 +4,7 @@
 
 -r base.txt
 
+nose  # TODO - Remove after stdlib -> pytest refactor.
 pytest
 pytest-cov
 pytest-mock
