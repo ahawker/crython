@@ -12,7 +12,8 @@ deploy:
     server: https://testpypi.python.org/pypi
     user: "Andrew.Hawker"
     password:
-      secure: PLBAVAAZiNE9AJXx/d5EWOS/gFpD1cKJuJukMc36T1suRf0faXGaSMZ8ULIHg7GV3ptsz+VPavLP+8qeZbxUzpnFyJeD0rdyVKE6gFLn4yzK8Vgn38iT2Wmn4i5GOC3wwGBbbckED+KUQNHfqnyIaSvl1kbtgmlrDWR+51IgumY=    distributions: "sdist bdist_wheel"
+      secure: PLBAVAAZiNE9AJXx/d5EWOS/gFpD1cKJuJukMc36T1suRf0faXGaSMZ8ULIHg7GV3ptsz+VPavLP+8qeZbxUzpnFyJeD0rdyVKE6gFLn4yzK8Vgn38iT2Wmn4i5GOC3wwGBbbckED+KUQNHfqnyIaSvl1kbtgmlrDWR+51IgumY=
+    distributions: "sdist bdist_wheel"
     skip_cleanup: true
     on:
       branch: master
