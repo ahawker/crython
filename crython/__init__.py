@@ -1,5 +1,17 @@
-__name__    = 'crython'
-__version__ = '0.0.1'
-__author__  = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
+"""
+    crython
+    ~~~~~~~
 
-from crython import job, tab
+    Cron scheduling for python functions.
+
+    :copyright: (c) 2013 Andrew Hawker.
+    :license: MIT, see LICENSE for more details.
+"""
+
+from .crython import job, tab
+
+
+__all__ = ['job', 'tab']
+
+
+__version__ = '0.0.1'
