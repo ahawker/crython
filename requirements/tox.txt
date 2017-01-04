@@ -1,0 +1,7 @@
+# crython/requirements/tox.txt
+#
+# Requirements for executing the crython test suite using tox.
+
+-r test.txt
+
+tox

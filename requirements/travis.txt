@@ -1,0 +1,7 @@
+# crython/requirements/travis.txt
+#
+# Requirements for executing the crython test suite on Travis CI.
+
+-r tox.txt
+
+tox-travis

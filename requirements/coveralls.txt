@@ -1,0 +1,7 @@
+# crython/requirements/coveralls.txt
+#
+# Requirements for uploading code coverage to coveralls.io.
+
+-r travis.txt
+
+coveralls

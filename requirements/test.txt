@@ -1,0 +1,10 @@
+# crython/requirements/test.txt
+# 
+# Requirements for executing the crython test suite.
+
+-r base.txt
+
+pytest
+pytest-cov
+pytest-mock
+pytest-pep8

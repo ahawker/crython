@@ -1,0 +1,5 @@
+# crython/requirements/base.txt
+#
+# Requirements for using the crython package.
+
+bumpversion
