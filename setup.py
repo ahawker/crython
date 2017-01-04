@@ -2,7 +2,7 @@
     crython
     ~~~~~~~
 
-    Cron scheduling for python functions.
+    Lightweight task scheduler using cron expressions.
 
     :copyright: (c) 2013 Andrew Hawker.
     :license: MIT, see LICENSE for more details.
@@ -32,7 +32,7 @@ setup(
     author_email='andrew.r.hawker@gmail.com',
     url='https://github.com/ahawker/crython',
     license='MIT',
-    description='Cron scheduling for python functions.',
+    description='Lightweight task scheduler using cron expressions.',
     long_description=__doc__,
     packages=['crython'],
     classifiers=(
