@@ -2,9 +2,33 @@ language: python
 python:
   - "2.6"
   - "2.7"
-install:
-  - pip install --use-mirrors tox
-  - pip install --use-mirrors coveralls
-script: TOXENV=py$(echo $TRAVIS_PYTHON_VERSION | tr -d .) tox
+install: make travis-install
+script: make travis-script
 after_success:
   - coveralls
+  - codeclimate-test-reporter
+deploy:
+  - provider: pypi
+    server: https://testpypi.python.org/pypi
+    user: "Andrew.Hawker"
+    password:
+      secure: PLBAVAAZiNE9AJXx/d5EWOS/gFpD1cKJuJukMc36T1suRf0faXGaSMZ8ULIHg7GV3ptsz+VPavLP+8qeZbxUzpnFyJeD0rdyVKE6gFLn4yzK8Vgn38iT2Wmn4i5GOC3wwGBbbckED+KUQNHfqnyIaSvl1kbtgmlrDWR+51IgumY=    distributions: "sdist bdist_wheel"
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: false
+      condition: $TRAVIS_PYTHON_VERSION = "2.6"
+  - provider: pypi
+    server: https://pypi.python.org/pypi
+    user: "Andrew.Hawker"
+    password:
+      secure: H+s5s025SzAeF0iD3R7wy59Cm3wDoCq/CqURTpg4cCd9cgjeOmCPyn8Uvua8SvNlK9p5VAJxyk4sOa2x0L8ijJte6+rRp285E6X8KskFd1iIoHcD9mfIVCvhowL8bZFkEibqdaVZE/mbBjgpm4CZ2PozT1OXK+g15suut21e+4A=
+    distributions: "sdist bdist_wheel"
+    skip_cleanup: true
+    on:
+      branch: master
+      tags: true
+      condition: $TRAVIS_PYTHON_VERSION = "2.7"
+notifications:
+  slack:
+    secure: Sbo7wtBcGXjFMT8mdqH6uQirPgkabjMytoal47npLX05ucPpP9/MczN4uQkNpBpxi+fS8Q5FiGetraQ/42ghu7gj9aGGGPcSnz2+z1FV54+2hTl4KYERjV2J0qT4X6ipENyg8g/Ot+BACjXE9ioXrNwExKOwJRcU8O08lH4BCgXVBLC8oowZgfT6sy2YLytL7tfJXabDSqigW74VShAFlerB4qDbZgf46P7wBqPXi7E3Uw4E6D1oqYqY2h10SxWEbSABZVYbQn4v5Ec1vm+FcYf/6VnQeGbG0SMylJQERyJoumO9wl2rOagOyIffcNuzl4IYXDIWIt4VKyUCRF+iL8eo+GBF4f/kWutiSEr0cqzEle/ehkpmsBIUFMlUwD1BFz1DvRnfvKwl8DxYvH45xLFg0uZEOQjC6Lv1ZBCYwIErbRAi0LldLGIFd6SOIeqlWTn5LN0rEgKLBioAC+1tsXx2i8gpdqxs+BAp9YjaB29F4k5bQtt89lxAAwnqRqYEEVpkMGgnok8d+wklK1xZHdnDsxiUcYngXOoUfwvOFuyqjChM9W+vKWS9n9bnmryZgAmGNbBpHT8hK+QtT+tHPxMdGkXwlFgHQ+oXgK2YZ94MCOUPXLag+9dq6IuETN4GY5APA3B4ZdJj79ir9SrnLAUPDG7gn+2E6Q6YCZkI6RY=
