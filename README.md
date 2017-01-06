@@ -5,6 +5,7 @@
 [![PyPI downloads](https://img.shields.io/pypi/dm/crython.svg)](https://pypi.python.org/pypi/crython)
 [![Build Status](https://travis-ci.org/ahawker/crython.png)](https://travis-ci.org/ahawker/crython)
 [![Coverage Status](https://coveralls.io/repos/ahawker/crython/badge.png?branch=master)](https://coveralls.io/r/ahawker/crython)
+[![Stories in Ready](https://badge.waffle.io/ahawker/crython.svg?label=ready&title=Ready)](http://waffle.io/ahawker/crython)
 [![Code Climate](https://codeclimate.com/github/ahawker/crython/badges/gpa.svg)](https://codeclimate.com/github/ahawker/crython)
 [![Issue Count](https://codeclimate.com/github/ahawker/crython/badges/issue_count.svg)](https://codeclimate.com/github/ahawker/crython)
 
