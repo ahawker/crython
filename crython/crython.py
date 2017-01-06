@@ -90,7 +90,7 @@ min = lambda v: CronField(v, 0,    59,   set(['*', '/', ',', '-']))
 hr  = lambda v: CronField(v, 0,    23,   set(['*', '/', ',', '-']))
 dom = lambda v: CronField(v, 1,    31,   set(['*', '/', ',', '-', '?', 'L', 'W']))
 mon = lambda v: CronField(v, 1,    12,   set(['*', '/', ',', '-']))
-dow = lambda v: CronField(v, 0,    6,    set(['*', '/', ',', '-', '?', 'L', '#']))
+dow = lambda v: CronField(v, 0,    7,    set(['*', '/', ',', '-', '?', 'L', '#']))
 yr  = lambda v: CronField(v, 1970, 2099, set(['*', '/', ',', '-']))
 
 class CronExpression(object):
@@ -120,7 +120,10 @@ class CronExpression(object):
     def __contains__(self, item): #item should always be a datetime #XXX confirm and revise
         if not isinstance(item, datetime.datetime): #hrm
             return False
-        item = dict(zip(self.STRUCT_TIME, item.timetuple()[:7]))
+        timetuple = list(item.timetuple()[:7])
+        timetuple[6] += 1
+        timetuple[6] = timetuple[6] % 7
+        item = dict(zip(self.STRUCT_TIME, timetuple))
         return all(item[k] in v for k,v in self.__dict__.items())
 
     def __eq__(self, other):
