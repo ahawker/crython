@@ -9,6 +9,7 @@ import threading
 import collections
 import multiprocessing
 import time
+from .compat import numeric_types, basestring
 
 LOG = logging.getLogger(__name__)
 
@@ -16,15 +17,16 @@ DAY_NAME = dict((v.lower(),k) for k,v in enumerate(calendar.day_name))      #(ex
 DAY_ABBR = dict((v.lower(),k) for k,v in enumerate(calendar.day_abbr))      #(ex: Mon, Tue, etc)
 MON_NAME = dict((v.lower(),k) for k,v in enumerate(calendar.month_name))    #(ex: January, February, etc)
 MON_ABBR = dict((v.lower(),k) for k,v in enumerate(calendar.month_abbr))    #(ex: Jan, Feb, etc)
-PHRASES  = dict(DAY_NAME.items() + DAY_ABBR.items() + MON_NAME.items() + MON_ABBR.items())
+PHRASES  = dict(list(DAY_NAME.items()) + list(DAY_ABBR.items()) + list(MON_NAME.items()) + list(MON_ABBR.items()))
 PHRASES_REGEX = re.compile('|'.join(PHRASES.keys()).lstrip('|'), flags=re.IGNORECASE)
+
 
 class CronField(object):
     SPECIALS   = set(['*', '/', '%', ',', '-', 'L', 'W', '#', '?'])
 
     def __init__(self, *args):
         self.value, self.min, self.max, self.specials = args
-        if isinstance(self.value, (int, long)):                     #numbers must be within bounds
+        if isinstance(self.value, numeric_types):                     #numbers must be within bounds
             if not self.min <= self.value <= self.max:
                 raise ValueError('Value must be between {0} and {1}'.format(self.min, self.max))
         if isinstance(self.value, basestring):                      #sub name/abbr for month/dayofweek
@@ -46,7 +48,7 @@ class CronField(object):
         """
         year,month = None,None
         value = self.value
-        if isinstance(value, (int, long)):                          #standard numeric (python obj)
+        if isinstance(value, numeric_types):                          #standard numeric (python obj)
             return value == item
         if isinstance(value, basestring):
             result = False
@@ -181,6 +183,7 @@ class CronTab(threading.Thread):
 
 tab = CronTab(name='global')
 
+#decoraotor
 def job(*args, **kwargs):
     crontab = kwargs.pop('tab', tab)
     ctx = kwargs.pop('ctx', 'thread')
