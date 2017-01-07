@@ -4,8 +4,7 @@ test-install:
 	pip install -q -r requirements/test.txt
 
 test: test-install
-	# py.test tests
-	nosetests ./tests --with-cover --cover-package=crython
+	py.test tests
 
 tox-install:
 	pip install -q -r requirements/tox.txt

@@ -1,1 +1,6 @@
-__author__ = 'arhawker'
+"""
+    test_tab
+    ~~~~~~~~
+
+    Tests for the :mod:`~crython.tab` module.
+"""

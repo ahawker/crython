@@ -1,170 +1,439 @@
-__author__ = 'Andrew Hawker <andrew.r.hawker@gmail.com>'
+"""
+    test_field
+    ~~~~~~~~~~
 
-from crython.crython import sec, min, hr, dom, mon, dow, yr
-import unittest
+    Tests for the :mod:`~crython.field` module.
+"""
 
-class CronField(object):
-    def test_wildcard(self):
-        """
-        Test field created from a wildcard (*) character.
-        """
-        midpt = (self.min + self.max) / 2
-        field = self.field('*')
-        assert midpt in field
-        assert self.min in field
-        assert self.max in field
-        assert not (self.min - 1) in field
-        assert not (self.max + 1) in field
+import pytest
 
-    def test_integer(self):
-        """
-        Test field created from an integer object.
-        """
-        val = (self.max + self.min) / 2
-        field = self.field(val)
-        assert not (val - 1) in field
-        assert not (val + 1) in field
-        assert val in field
+from crython import field
 
-    def test_csv(self):
-        """
-        Test field created from a comma separated list.
-        """
-        min = self.min + 1
-        midpt = (self.max + self.min) / 2
-        max = self.max - 1
-        field = self.field(','.join(map(str, (min, midpt, max))))
-        assert min in field
-        assert midpt in field
-        assert max in field
-        assert not (midpt - 1) in field
-        assert not (max + 10) in field
 
-    def test_integer_string(self):
-        """
-        Test field created from a string which can be converted to an integer.
-        """
-        val = (self.max + self.min) / 2
-        field = self.field(str(val))
-        assert val in field
-        assert not (val - 1) in field
-        assert not (val + 1) in field
+@pytest.fixture(scope='module', params=field.partials.values())
+def field_partial(request):
+    """
+    Fixture that yields back partials for creating :class:`~crython.field.CronField` instances.
+    """
+    return request.param
 
-    def test_range(self):
-        """
-        Test field created from string representation of a range.
-        """
-        start = self.min + 10
-        stop = start + 10
-        midpt = (start + stop) / 2
-        field = self.field('{0}-{1}'.format(start, stop))
-        assert start in field
-        assert midpt in field
-        assert stop in field
-        assert not (start - 1) in field
-        assert not (stop + 1) in field
 
-    def test_range_with_step(self):
-        """
-        Test field created from string representation of a range with a step.
-        """
-        start = self.min + 10
-        stop = start + 10
-        step = 2
-        field = self.field('{0}-{1}/{2}'.format(start, stop, step))
-        assert start in field
-        assert stop in field
-        assert (start + step) in field
-        assert not (stop + step) in field
-        assert not (start + (step - 1)) in field
-        assert not (start + (step + 1)) in field
+@pytest.fixture(scope='module')
+def default_field(field_partial):
+    """
+    Fixture that yields back the creation of all partials using the default field value.
+    """
+    return field_partial(field.DEFAULT_VALUE)
 
-    def test_wildcard_with_step(self):
-        """
-        Test field created from a wildcard with a step.
-        """
-        step = 2
-        field = self.field('*/{0}'.format(step))
-        assert self.min in field
-        assert (self.min + step) in field
-        assert not (self.min + 1) in field
 
-    def test_range_obj(self):
-        """
-        Test field created from an iterable. Ex: range(x,y)
-        """
-        start = self.min
-        stop = start + 20
-        midpt = (start + stop) / 2
-        field = self.field(range(start, stop))
-        assert start in field
-        assert midpt in field
-        assert not stop in field
-        assert not (stop + 1) in field
+@pytest.fixture(scope='module', params=range(0, 59))
+def second_valid_numeral(request):
+    """
+    Fixture that yields back all valid numerals (inclusive) for the "second" field.
+    """
+    return request.param
 
-    def test_range_obj_with_step(self):
-        """
-        Test field created from an interable with step. Ex: range(x,y,z)
-        """
-        start = self.min
-        stop = start + 20
-        step = 2
-        field = self.field(range(start,stop, step))
-        assert start in field
-        assert not stop in field
-        assert (start + step) in field
-        assert not (stop + step) in field
-        assert not (start + (step - 1)) in field
-        assert not (start + (step + 1)) in field
 
-class TestCronSecond(unittest.TestCase, CronField):
-    def setUp(self):
-        self.field = sec
-        self.min = 0
-        self.max = 59
-        self.specials = set(['*', '/', ',', '-'])
+@pytest.fixture(scope='module')
+def second_field_valid_numeral(second_valid_numeral):
+    """
+    Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
+    with a valid numeral.
+    """
+    return field.second(second_valid_numeral)
 
-class TestCronMinute(unittest.TestCase, CronField):
-    def setUp(self):
-        self.field = min
-        self.min = 0
-        self.max = 59
-        self.specials = set(['*', '/', ',', '-'])
 
-class TestCronHour(unittest.TestCase, CronField):
-    def setUp(self):
-        self.field = hr
-        self.min = 0
-        self.max = 23
-        self.specials = set(['*', '/', ',', '-'])
+@pytest.fixture(scope='module')
+def second_field_valid_numeral_as_str(second_valid_numeral):
+    """
+    Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
+    with a valid numeral as a string.
+    """
+    return field.second(str(second_valid_numeral))
 
-class TestCronDay(unittest.TestCase, CronField):
-    def setUp(self):
-        self.field = dom
-        self.min = 1
-        self.max = 31
-        self.specials = set(['*', '/', ',', '-', '?', 'L', 'W'])
 
-class TestCronMonth(unittest.TestCase, CronField):
-    def setUp(self):
-        self.field = mon
-        self.min = 1
-        self.max = 12
-        self.specials = set(['*', '/', ',', '-'])
+@pytest.fixture(scope='module', params=[
+    (0, 3),
+    (0, 10),
+    (0, 58),
+    (5, 11),
+    (14, 35),
+    (30, 59)
+])
+def second_valid_range(request):
+    """
+    Fixture that yields a list of values that represent a range of numbers within the bounds
+    of the "second" field.
+    """
+    return range(*request.param)
 
-class TestCronDayOfWeek(unittest.TestCase, CronField):
-    def setUp(self):
-        self.field = dow
-        self.min = 0
-        self.max = 6
-        self.specials = set(['*', '/', '-', '?', 'L', '#'])
 
-class TestCronYear(unittest.TestCase, CronField):
-    def setUp(self):
-        self.field = yr
-        self.min = 1970
-        self.max = 2099
-        self.specials = set(['*', '/', ',', '-'])
+@pytest.fixture(scope='module', params=[
+    (10, 30, 8),
+    (20, 30, 2),
+    (0, 59, 2),
+    (0, 59, 5)
+])
+def second_valid_range_with_step(request):
+    """
+    Fixture that yields a list of values that represent a range of numbers with a step that are within
+    the bounds of the "second" field.
+    """
+    return range(*request.param)
 
-if __name__ == '__main__':
-    unittest.main()
+
+@pytest.fixture(scope='module')
+def second_field_valid_range(second_valid_range):
+    """
+    Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
+    by a valid range of numbers.
+    """
+    return field.second(second_valid_range)
+
+
+@pytest.fixture(scope='module')
+def second_field_valid_range_with_step(second_valid_range_with_step):
+    """
+    Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
+    by a valid range of numbers with a step.
+    """
+    return field.second(second_valid_range_with_step)
+
+
+@pytest.fixture(scope='module')
+def second_valid_range_str(second_valid_range):
+    """
+    Fixture that yields a string representation of a range within the bounds
+    of the "second" field.
+    """
+    start, stop = second_valid_range[0], second_valid_range[-1]
+    return '{}-{}'.format(start, stop)
+
+
+@pytest.fixture(scope='module')
+def second_field_valid_range_str(second_valid_range_str):
+    """
+    Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
+    by a valid range string.
+    """
+    return field.second(second_valid_range_str)
+
+
+@pytest.fixture(scope='module')
+def second_valid_range_with_step_str(second_valid_range_with_step):
+    """
+    Fixture that yields a string representation of a range, with step value, within the bounds
+    of the "second" field.
+    """
+    start, stop = second_valid_range_with_step[0], second_valid_range_with_step[-1]
+    step = second_valid_range_with_step[1] - second_valid_range_with_step[0]
+    return '{}-{}/{}'.format(start, stop, step)
+
+
+@pytest.fixture(scope='module')
+def second_field_valid_range_with_step_str(second_valid_range_with_step_str):
+    """
+    Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
+    by a valid range string with a step value.
+    """
+    return field.second(second_valid_range_with_step_str)
+
+
+@pytest.fixture(scope='module', params=[
+    1,
+    2,
+    3,
+    5,
+    6,
+    10
+])
+def second_field_all_match_range_with_step_str(request):
+    """
+    Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
+    by a valid "all matches" range string with a step value.
+    """
+    return field.second('*/{}'.format(request.param))
+
+
+@pytest.fixture(scope='module', params=[
+    [0, 1, 2],
+    [0, 1, 2, 3],
+    [0, 1, 2, 4],
+    [0, 1, 2, 5, 10],
+    [0, 1, 2, 5, 10, 30],
+    [0, 1, 2, 5, 10, 30, 45],
+    [0, 1, 2, 5, 10, 30, 45, 51],
+    [0, 1, 2, 5, 10, 30, 45, 51, 54],
+    [0, 1, 2, 5, 10, 30, 45, 51, 54, 59],
+])
+def second_valid_list(request):
+    """
+    Fixture that yields back valid lists of numbers that can be used to specify multiple matching
+    values for the "second" field.
+    """
+    return request.param
+
+
+@pytest.fixture(scope='module')
+def second_field_valid_list(second_valid_list):
+    """
+    Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
+    with a valid list of numerals.
+    """
+    return field.second(second_valid_list)
+
+
+@pytest.fixture(scope='module')
+def second_field_valid_list_csv_str(second_valid_list):
+    """
+    Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
+    with a valid list of numerals formatted as a comma separated string.
+    """
+    return field.second(','.join(map(str, second_valid_list)))
+
+
+@pytest.fixture(scope='module', params=range(0, 59))
+def minute_field_valid_numeral(request):
+    """
+    Fixture that yields back all valid numerals (inclusive) for the "second" field.
+    """
+    return request.param
+
+
+@pytest.fixture(scope='module', params=range(0, 23))
+def hour_field_valid_numeral(request):
+    """
+    Fixture that yields back all valid numerals (inclusive) for the "hour" field.
+    """
+    return request.param
+
+
+@pytest.fixture(scope='module', params=range(1, 31))
+def day_field_valid_numeral(request):
+    """
+    Fixture that yields back all valid numerals (inclusive) for the "hour" field.
+    """
+    return request.param
+
+
+@pytest.fixture(scope='module', params=range(1, 12))
+def month_field_valid_numeral(request):
+    """
+    Fixture that yields back all valid numerals (inclusive) for the "hour" field.
+    """
+    return request.param
+
+
+@pytest.fixture(scope='module', params=range(0, 6))
+def weekday_field_valid_numeral(request):
+    """
+    Fixture that yields back all valid numerals (inclusive) for the "hour" field.
+    """
+    return request.param
+
+
+@pytest.fixture(scope='module', params=range(1970, 2099))
+def year_field_valid_numeral(request):
+    """
+    Fixture that yields back all valid numerals (inclusive) for the "hour" field.
+    """
+    return request.param
+
+
+def _field_matches_lower_bound_inclusive(field):
+    """
+    Return :bool:`True` if the given field matches its minimum bound value.
+    """
+    below = field.matches(field.min - 1)
+    exact = field.matches(field.min)
+    above = field.matches(field.min + 1)
+    return below is False and exact is True and above is True
+
+
+def _field_matches_upper_bound_inclusive(field):
+    """
+    Return :bool:`True` if the given field matches its maximum bound value.
+    """
+    below = field.matches(field.max - 1)
+    exact = field.matches(field.max)
+    above = field.matches(field.max + 1)
+    return below is True and exact is True and above is False
+
+
+def _field_matches_single_value_within_bounds(field, value):
+    """
+    Return :bool:`True` if the given field _only_ matches the given value. This will check that the given
+    value matches and that no other values within the expected min/max bounds do.
+    """
+    exact = field.matches(value)
+    others_within_bounds = (field.matches(v) for v in range(field.min, field.max) if v != value)
+    return exact is True and not any(others_within_bounds)
+
+
+def _field_matches_multiple_values_within_bounds(field, values):
+    """
+    Return :bool:`True` if the given field _only_ matches against a collection of specified values. This will check
+    that the given values match and that no other values within the expected min/max bounds do.
+    """
+    exact = (field.matches(v) for v in values)
+    others_within_bounds = (field.matches(v) for v in range(field.min, field.max) if v not in values)
+    return all(exact) and not any(others_within_bounds)
+
+
+def _field_matches_multiple_values_as_csv_within_bounds(field, values):
+    """
+    Return :bool:`True` if the given field _only_ matches against a collection of values specified as a
+    comma delimited string.
+    """
+    return _field_matches_multiple_values_within_bounds(field, values.split(','))
+
+
+def test_default_field_matches_lower_bound_inclusive(default_field):
+    """
+    Assert that all fields with the default value match their lower bound inclusively.
+    """
+    assert _field_matches_lower_bound_inclusive(default_field)
+
+
+def test_default_field_matches_upper_bound_inclusive(default_field):
+    """
+    Assert that all fields with the default value match their upper bound inclusively.
+    """
+    assert _field_matches_upper_bound_inclusive(default_field)
+
+
+def test_default_second_field_matches_all_numeral_values(second_valid_numeral):
+    """
+    Assert that the "second" field with the default value matches all numeral values within
+    bounds inclusively.
+    """
+    assert field.second(field.DEFAULT_VALUE).matches(second_valid_numeral)
+
+
+def test_numeral_second_field_only_matches_itself(second_field_valid_numeral):
+    """
+    Assert that the "second" field created from a single numeral _only_ matches that one value
+    and none others within the bounds.
+    """
+    assert _field_matches_single_value_within_bounds(second_field_valid_numeral, second_field_valid_numeral.value)
+
+
+def test_numeral_str_second_field_only_matches_itself(second_field_valid_numeral_as_str):
+    """
+    Assert that the "second" field created from a single numeral formatted as a str _only_ matches that one value
+    and none others within the bounds.
+    """
+    assert _field_matches_single_value_within_bounds(second_field_valid_numeral_as_str,
+                                                     second_field_valid_numeral_as_str.value)
+
+
+def test_list_second_field_only_matches_itself(second_field_valid_list):
+    """
+    Assert that the "second" field created from a list of numerals _only_ matches those values
+    and none other within the bounds.
+    """
+    assert _field_matches_multiple_values_within_bounds(second_field_valid_list, second_field_valid_list.value)
+
+
+@pytest.mark.xfail(reason='TODO - #10')
+def test_csv_str_second_field_matches_only_matches_itself(second_field_valid_list_csv_str):
+    """
+    Assert that the "second" field created from a comma separated string of numerals _only_ matches those values
+    and none other within the bounds.
+    """
+    assert _field_matches_multiple_values_as_csv_within_bounds(second_field_valid_list_csv_str,
+                                                               second_field_valid_list_csv_str.value)
+
+
+def test_range_second_field_only_matches_members(second_field_valid_range):
+    """
+    Assert that the "second" field created from a range of numbers _only_ matches themselves and none
+    other within the bounds.
+    """
+    assert _field_matches_multiple_values_within_bounds(second_field_valid_range, second_field_valid_range.value)
+
+
+def test_range_with_step_second_field_only_matches_members(second_field_valid_range_with_step):
+    """
+    Assert that the "second" field created from a range with a step _only_ matches themselves and none
+    other within the bounds.
+    """
+    assert _field_matches_multiple_values_within_bounds(second_field_valid_range_with_step,
+                                                        second_field_valid_range_with_step.value)
+
+
+def test_range_str_second_field_only_matches_members(second_field_valid_range_str, second_valid_range):
+    """
+    Assert that the "second" field created from a range string _only_ matches items within the range itself
+    and none other within the bounds.
+    """
+    assert _field_matches_multiple_values_within_bounds(second_field_valid_range_str, second_valid_range)
+
+
+@pytest.mark.xfail(reason='TODO - #13')
+def test_range_str_with_step_second_field_only_matches_members(second_field_valid_range_with_step_str,
+                                                               second_valid_range_with_step):
+    """
+    Assert that the "second" field created from a range string with a step value _only_ matches items
+    within the range itself that are multiples of the step and none other within the bounds.
+    """
+    assert _field_matches_multiple_values_within_bounds(second_field_valid_range_with_step_str, second_valid_range_with_step)
+
+
+def test_range_wildcard_str_second_field_matches_all_members_within_bounds(second_field_all_match_range_with_step_str):
+    """
+    Assert that the "second" field created from a "all match" range string with a step value _only_
+    matches items within the range itself that are multiples of the step and none other within the bounds.
+    """
+    start, stop = second_field_all_match_range_with_step_str.min, second_field_all_match_range_with_step_str.max
+    step = int(second_field_all_match_range_with_step_str.value.split('/')[-1])
+    assert _field_matches_multiple_values_within_bounds(second_field_all_match_range_with_step_str,
+                                                        range(start, stop, step))
+
+
+def test_default_minute_field_matches_all_numeral_values(minute_field_valid_numeral):
+    """
+    Assert that the "minute" field with the default value matches all numeral values within
+    bounds inclusively.
+    """
+    assert field.minute(field.DEFAULT_VALUE).matches(minute_field_valid_numeral)
+
+
+def test_default_hour_field_matches_all_numeral_values(hour_field_valid_numeral):
+    """
+    Assert that the "hour" field with the default value matches all numeral values within
+    bounds inclusively.
+    """
+    assert field.hour(field.DEFAULT_VALUE).matches(hour_field_valid_numeral)
+
+
+def test_default_day_field_matches_all_numeral_values(day_field_valid_numeral):
+    """
+    Assert that the "day" field with the default value matches all numeral values within
+    bounds inclusively.
+    """
+    assert field.day(field.DEFAULT_VALUE).matches(day_field_valid_numeral)
+
+
+def test_default_month_field_matches_all_numeral_values(month_field_valid_numeral):
+    """
+    Assert that the "month" field with the default value matches all numeral values within
+    bounds inclusively.
+    """
+    assert field.month(field.DEFAULT_VALUE).matches(month_field_valid_numeral)
+
+
+def test_default_weekday_field_matches_all_numeral_values(weekday_field_valid_numeral):
+    """
+    Assert that the "weekday" field with the default value matches all numeral values within
+    bounds inclusively.
+    """
+    assert field.weekday(field.DEFAULT_VALUE).matches(weekday_field_valid_numeral)
+
+
+def test_default_year_field_matches_all_numeral_values(year_field_valid_numeral):
+    """
+    Assert that the "year" field with the default value matches all numeral values within
+    bounds inclusively.
+    """
+    assert field.year(field.DEFAULT_VALUE).matches(year_field_valid_numeral)
