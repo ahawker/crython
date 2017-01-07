@@ -3,3 +3,4 @@
 # Requirements for using the crython package.
 
 bumpversion
+ordereddict; python_version < '2.7'

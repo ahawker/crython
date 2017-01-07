@@ -10,6 +10,8 @@ import collections
 import functools
 import re
 
+from crython._compat import OrderedDict
+
 
 __all__ = ['CronField', 'second', 'minute', 'hour', 'day', 'month', 'weekday', 'year', 'partials']
 
@@ -415,4 +417,4 @@ year = functools.partial(CronField.new, name='year', min=1970, max=2099,
                                              NON_SPECIFIC, LAST, NTH]))
 
 #: Mapping of field name to the partial that create one of that field "type".
-partials = collections.OrderedDict(zip(NAMES, (second, minute, hour, day, month, weekday, year)))
+partials = OrderedDict(zip(NAMES, (second, minute, hour, day, month, weekday, year)))
