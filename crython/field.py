@@ -170,7 +170,7 @@ class CronField(object):
         if isinstance(value, collections.Iterable):
             return cls.from_iterable(value, name, *args, **kwargs)
 
-        raise ValueError('Expected value of int, long, str, iterable type; got {}'.format(type(value)))
+        raise ValueError('Expected value of int, long, str, iterable type; got {0}'.format(type(value)))
 
     @classmethod
     def from_number(cls, value, name, min, max, specials, *args, **kwargs):
@@ -188,7 +188,7 @@ class CronField(object):
         """
         # Validate value within the given min/max bounds.
         if not min <= value <= max:
-            raise ValueError('Value must be between {} and {}'.format(min, max))
+            raise ValueError('Value must be between {0} and {1}'.format(min, max))
         return cls(value, name, min, max, specials, *args, **kwargs)
 
     @classmethod
@@ -207,7 +207,7 @@ class CronField(object):
         """
         # Do allow creation of fields with special characters we don't have comparison logic for yet. # TODO - #11
         if value in [NON_SPECIFIC, LAST, WEEKDAY, NTH]:
-            raise ValueError('Special character "{}" is not yet supported'.format(value))
+            raise ValueError('Special character "{0}" is not yet supported'.format(value))
 
         # Replace english word representation for day of week and/or month names with their numeric value.
         value = _phrase_to_numeral(value)
@@ -216,7 +216,7 @@ class CronField(object):
         # the field "type".
         invalid_chars = _invalid_special_chars(value, specials)
         if invalid_chars:
-            raise ValueError('Field contains invalid special characters: {}'.format(','.join(invalid_chars)))
+            raise ValueError('Field contains invalid special characters: {0}'.format(','.join(invalid_chars)))
 
         return cls(_int_try_parse(value), name, min, max, specials, *args, **kwargs)
 
@@ -244,8 +244,8 @@ class CronField(object):
         self.specials = specials
 
     def __repr__(self):
-        return '<{}(name={}, value={}, min={}, max={})>'.format(self.__class__.__name__, self.name, self.value,
-                                                                self.min, self.max)
+        return '<{0}(name={1}, value={2}, min={3}, max={4})>'.format(self.__class__.__name__, self.name, self.value,
+                                                                     self.min, self.max)
 
     def __str__(self):
         return str(self.value)
@@ -264,7 +264,7 @@ class CronField(object):
         or `timedelta` instance.
         """
         if not isinstance(item, (int, long)):
-            raise ValueError('Expected comparison with item of type int or long; got {}'.format(type(item)))
+            raise ValueError('Expected comparison with item of type int or long; got {0}'.format(type(item)))
 
         if isinstance(self.value, (int, long)):
             return self._matches_number(item)
@@ -273,7 +273,7 @@ class CronField(object):
         if isinstance(self.value, collections.Iterable):
             return self._matches_iterable(item)
 
-        raise RuntimeError('Unknown value type {}'.format(type(self.value)))
+        raise RuntimeError('Unknown value type {0}'.format(type(self.value)))
 
     def _matches_number(self, item):
         """
@@ -335,9 +335,9 @@ class CronField(object):
 
         # If it's a last special character (last of "day of month" or "day of week") or "?". TODO - #11
         if value in [NON_SPECIFIC, LAST]:
-            raise RuntimeError('Special character {} is not yet supported'.format(value))
+            raise RuntimeError('Special character {0} is not yet supported'.format(value))
 
-        raise ValueError('Unknown match of field "{}" with item "{}"'.format(value, item))
+        raise ValueError('Unknown match of field "{0}" with item "{1}"'.format(value, item))
 
     def _matches_str_multi_char_field(self, item, start, stop, step=None):
         """
@@ -352,7 +352,7 @@ class CronField(object):
         """
         # If it's the "last" special character (last "day of month" or "day of week"). TODO - #11
         if stop == LAST:
-            raise RuntimeError('Special character {} is not yet supported'.format(stop))
+            raise RuntimeError('Special character {0} is not yet supported'.format(stop))
 
         # If it's a wildcard special character (match all) as the range "start" value, e.g. "*/2", we want to
         # accept the entire value range of this field. Additionally for this case, there won't be a "stop" value, just

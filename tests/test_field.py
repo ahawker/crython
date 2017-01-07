@@ -107,7 +107,7 @@ def second_valid_range_str(second_valid_range):
     of the "second" field.
     """
     start, stop = second_valid_range[0], second_valid_range[-1]
-    return '{}-{}'.format(start, stop)
+    return '{0}-{1}'.format(start, stop)
 
 
 @pytest.fixture(scope='module')
@@ -127,7 +127,7 @@ def second_valid_range_with_step_str(second_valid_range_with_step):
     """
     start, stop = second_valid_range_with_step[0], second_valid_range_with_step[-1]
     step = second_valid_range_with_step[1] - second_valid_range_with_step[0]
-    return '{}-{}/{}'.format(start, stop, step)
+    return '{0}-{1}/{2}'.format(start, stop, step)
 
 
 @pytest.fixture(scope='module')
@@ -152,7 +152,7 @@ def second_field_all_match_range_with_step_str(request):
     Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
     by a valid "all matches" range string with a step value.
     """
-    return field.second('*/{}'.format(request.param))
+    return field.second('*/{0}'.format(request.param))
 
 
 @pytest.fixture(scope='module', params=[

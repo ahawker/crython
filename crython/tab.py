@@ -30,7 +30,7 @@ class CronTab(threading.Thread):
 
     def __init__(self, *args, **kwargs):
         super(CronTab, self).__init__(*args, **kwargs)
-        self.name = 'CronTab ({})'.format(kwargs.get('name', id(self)))
+        self.name = 'CronTab ({0})'.format(kwargs.get('name', id(self)))
         self.daemon = True
         self.jobs = {}
         self.jobs_lock = threading.RLock()
@@ -105,7 +105,7 @@ class CronTab(threading.Thread):
         except Exception:
             LOG.exception('{0} encountered unhandled exception'.format(self.name))
         finally:
-            LOG.info('{} exiting'.format(self.name))
+            LOG.info('{0} exiting'.format(self.name))
 
 
 #: The default, global tab instance that is created on import. This is the instance that will be used unless

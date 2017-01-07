@@ -62,7 +62,7 @@ def _expression_str_to_dict(expression, expression_field_count=FIELD_COUNT, fiel
     # Parse out each individual field value and check that we've got enough.
     values = expression.split()
     if len(values) != expression_field_count:
-        raise ValueError('Expression contains {} fields; expects {}'.format(len(values), expression_field_count))
+        raise ValueError('Expression contains {0} fields; expects {1}'.format(len(values), expression_field_count))
 
     return dict(zip(field_names, values))
 
@@ -153,7 +153,7 @@ class CronExpression(object):
         self.reboot = reboot
 
     def __repr__(self):
-        return '<{}({})>'.format(self.__class__.__name__, str(self))
+        return '<{0}({1})>'.format(self.__class__.__name__, str(self))
 
     def __str__(self):
         if self.is_reboot:
