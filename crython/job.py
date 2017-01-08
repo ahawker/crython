@@ -4,6 +4,7 @@
 
     Contains functionality for defining functions that should be executed.
 """
+from __future__ import unicode_literals
 
 import functools
 

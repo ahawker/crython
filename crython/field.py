@@ -4,32 +4,35 @@
 
     Contains functionality for representing an individual field within an expression.
 """
+from __future__ import unicode_literals
 
 import calendar
 import collections
 import functools
 import re
 
-from crython._compat import OrderedDict
+from crython import compat
 
 
 __all__ = ['CronField', 'second', 'minute', 'hour', 'day', 'month', 'weekday', 'year', 'partials']
 
 
 #: Full day of week names e.g 'Monday', 'Tuesday', 'Wednesday'.
-DAY_NAME = dict((v.lower(), k) for k, v in enumerate(calendar.day_name))
+DAY_NAMES = dict((v.lower(), k) for k, v in enumerate(calendar.day_name))
 
 #: Abbreviated day of week names e.g. 'Mon', 'Tue', 'Wed'.
-DAY_ABBR = dict((v.lower(), k) for k, v in enumerate(calendar.day_abbr))
+DAY_ABBRS = dict((v.lower(), k) for k, v in enumerate(calendar.day_abbr))
 
 #: Full month names e.g. 'January', 'February', 'March'.
-MON_NAME = dict((v.lower(), k) for k, v in enumerate(calendar.month_name))
+MONTH_NAMES = dict((v.lower(), k) for k, v in enumerate(calendar.month_name))
 
 #: Abbreviated month names e.g. 'Jan', 'Feb', 'Mar'.
-MON_ABBR = dict((v.lower(), k) for k, v in enumerate(calendar.month_abbr))
+MONTH_ABBRS = dict((v.lower(), k) for k, v in enumerate(calendar.month_abbr))
 
 #: English words (full and abbreviated) for day of week & month names that are possible values.
-PHRASES = dict((k, v) for d in (DAY_NAME, DAY_ABBR, MON_NAME, MON_ABBR) for (k, v) in d.items())
+PHRASES = dict((k.lower(), v)
+               for d in (DAY_NAMES, DAY_ABBRS, MONTH_NAMES, MONTH_ABBRS)
+               for (k, v) in compat.iteritems(d) if k)
 
 #: Regex for detecting valid english words for day of week & month names.
 PHRASES_REGEX = re.compile('|'.join(PHRASES.keys()).lstrip('|'), flags=re.IGNORECASE)
@@ -105,9 +108,9 @@ def _phrase_to_numeral(phrase, phrases=PHRASES, regex=PHRASES_REGEX):
     :return: String representation of integer value of the given english word
     """
     def _repl(match):
-        return str(phrases[match.group(0).lower()])
+        return compat.str(phrases[match.group(0).lower()])
 
-    return regex.sub(_repl, str(phrase))
+    return regex.sub(_repl, compat.str(phrase))
 
 
 def _int_try_parse(value):
@@ -118,7 +121,7 @@ def _int_try_parse(value):
     :return: :class:`int` if conversion was successful; the original :class:`string` otherwise.
     """
     try:
-        return int(value)
+        return compat.int(value)
     except (TypeError, ValueError):
         return value
 
@@ -132,7 +135,7 @@ def _check_and_parse_if_number(value):
     :return: A two item tuple containing a boolean indicating the conversion success and the converted value.
     """
     value = _int_try_parse(value)
-    return isinstance(value, int), value
+    return isinstance(value, compat.int), value
 
 
 def _invalid_special_chars(value, valid_specials, all_specials=ALL_SPECIALS):
@@ -147,7 +150,7 @@ def _invalid_special_chars(value, valid_specials, all_specials=ALL_SPECIALS):
     return all_specials.difference(valid_specials).intersection(set(value))
 
 
-class CronField(object):
+class CronField(compat.object):
     """
     Represents an individual field of a cron expression.
     """
@@ -163,21 +166,21 @@ class CronField(object):
         :param kwargs: Additional keyword args
         :return: A :class:`~crython.field.CronField`
         """
-        if isinstance(value, (int, long)):
+        if isinstance(value, compat.int):
             return cls.from_number(value, name, *args, **kwargs)
-        if isinstance(value, basestring):
+        if isinstance(value, compat.str):
             return cls.from_str(value, name, *args, **kwargs)
         if isinstance(value, collections.Iterable):
             return cls.from_iterable(value, name, *args, **kwargs)
 
-        raise ValueError('Expected value of int, long, str, iterable type; got {0}'.format(type(value)))
+        raise ValueError('Expected value of int, str, iterable type; got {0}'.format(type(value)))
 
     @classmethod
     def from_number(cls, value, name, min, max, specials, *args, **kwargs):
         """
         Create a new :class:`~crython.field.CronField` instance from the given numeric value.
 
-        :param value: A :class:`~int` or :class:`~long` value.
+        :param value: A :class:`~int` value.
         :param name: Name of the column this field represents within an expression.
         :param min: Lower bound for the value, inclusive
         :param max: Upper bound for the value, inclusive
@@ -248,7 +251,7 @@ class CronField(object):
                                                                      self.min, self.max)
 
     def __str__(self):
-        return str(self.value)
+        return compat.str(self.value)
 
     def __eq__(self, other):
         return self.value == other
@@ -263,12 +266,12 @@ class CronField(object):
         TODO - Recomputing this isn't very efficient. Consider converting the field or expression to a `datetime`
         or `timedelta` instance.
         """
-        if not isinstance(item, (int, long)):
-            raise ValueError('Expected comparison with item of type int or long; got {0}'.format(type(item)))
+        if not isinstance(item, compat.int):
+            raise ValueError('Expected comparison with item of type int; got {0}'.format(type(item)))
 
-        if isinstance(self.value, (int, long)):
+        if isinstance(self.value, compat.int):
             return self._matches_number(item)
-        if isinstance(self.value, basestring):
+        if isinstance(self.value, compat.str):
             return self._matches_str(item)
         if isinstance(self.value, collections.Iterable):
             return self._matches_iterable(item)
@@ -362,7 +365,7 @@ class CronField(object):
 
         # Check to see if the given item is within our range and a multiple of
         # the step/interval, if one was provided.
-        start, stop, step = int(start), int(stop), int(step) if step else None
+        start, stop, step = compat.int(start), compat.int(stop), compat.int(step) if step else None
         is_within_range = start <= item <= stop
         is_multiple_of_step = (not step or (item + start) % step == 0)
 
@@ -417,4 +420,4 @@ year = functools.partial(CronField.new, name='year', min=1970, max=2099,
                                              NON_SPECIFIC, LAST, NTH]))
 
 #: Mapping of field name to the partial that create one of that field "type".
-partials = OrderedDict(zip(NAMES, (second, minute, hour, day, month, weekday, year)))
+partials = compat.OrderedDict(zip(NAMES, (second, minute, hour, day, month, weekday, year)))

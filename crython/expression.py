@@ -4,8 +4,9 @@
 
     Contains functionality for representing a single cron expression.
 """
+from __future__ import unicode_literals
 
-from crython import field
+from crython import compat, field
 
 
 #: Number of fields for a single cron expression.
@@ -20,7 +21,7 @@ REBOOT_KEYWORD = '@reboot'
 
 #: Object indicating that the cron expression is a "@reboot". This means that there is no valid space-delimited
 #: value to express it and that it should just be executed "immediately" after starting.
-REBOOT_SENTINEL = object()
+REBOOT_SENTINEL = compat.object()
 
 #: Reserved keywords that map to a specific cron expression.
 RESERVED_KEYWORDS = {
@@ -79,10 +80,10 @@ def _fields_tuple_from_dict(fields, field_partials=field.partials, field_default
     :param field_default: (Optional) Default value of a field if one is not set.
     :return: An "ordered" tuple of :class:`~crython.field.CronField` instances.
     """
-    return tuple(partial(fields.get(name, field_default)) for (name, partial) in field_partials.iteritems())
+    return tuple(partial(fields.get(name, field_default)) for (name, partial) in compat.iteritems(field_partials))
 
 
-class CronExpression(object):
+class CronExpression(compat.object):
     """
     Represents an entire cron expression.
 
@@ -153,13 +154,13 @@ class CronExpression(object):
         self.reboot = reboot
 
     def __repr__(self):
-        return '<{0}({1})>'.format(self.__class__.__name__, str(self))
+        return '<{0}({1})>'.format(self.__class__.__name__, compat.str(self))
 
     def __str__(self):
         if self.is_reboot:
             return REBOOT_KEYWORD
-        return ' '.join(str(f) for f in (self.second, self.minute, self.hour, self.day,
-                                         self.month, self.weekday, self.year))
+        return ' '.join(compat.str(f) for f in (self.second, self.minute, self.hour, self.day,
+                                                self.month, self.weekday, self.year))
 
     @property
     def is_reboot(self):

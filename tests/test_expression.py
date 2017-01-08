@@ -4,10 +4,11 @@
 
     Tests for the :mod:`~crython.expression` module.
 """
+from __future__ import unicode_literals
 
 import pytest
 
-from crython import expression, field
+from crython import compat, expression, field
 
 
 @pytest.fixture(scope='module', params=expression.RESERVED_KEYWORDS.items())
@@ -104,7 +105,7 @@ def test_cron_expression_new_with_no_params_returns_default():
     of the default expression value when not given any parameters.
     """
     expr = expression.CronExpression.new()
-    assert str(expr) == expression.DEFAULT_VALUE
+    assert compat.str(expr) == expression.DEFAULT_VALUE
 
 
 def test_cron_expression_new_handles_reboot():
@@ -132,7 +133,7 @@ def test_cron_expression_new_handles_reserved_keywords(reserved_keywords):
     """
     keyword, value = reserved_keywords
     expr = expression.CronExpression.new(keyword)
-    assert str(expr) == expression.RESERVED_KEYWORDS[keyword]
+    assert compat.str(expr) == expression.RESERVED_KEYWORDS[keyword]
 
 
 def test_cron_expression_from_str_uses_given_reboot_sentinel():
@@ -140,7 +141,7 @@ def test_cron_expression_from_str_uses_given_reboot_sentinel():
     Assert that :meth:`~crython.expression.CronExpression.new` returns a :class:`~crython.expression.CronExpression`
     that evaluates to a reboot expression when given a custom sentinel.
     """
-    sentinel = object()
+    sentinel = compat.object()
     expr = expression.CronExpression.from_str(expression.REBOOT_KEYWORD, reboot_sentinel=sentinel)
     assert expr.is_reboot is True
 

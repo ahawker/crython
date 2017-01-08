@@ -4,10 +4,11 @@
 
     Tests for the :mod:`~crython.field` module.
 """
+from __future__ import unicode_literals
 
 import pytest
 
-from crython import field
+from crython import compat, field
 
 
 @pytest.fixture(scope='module', params=field.partials.values())
@@ -26,7 +27,7 @@ def default_field(field_partial):
     return field_partial(field.DEFAULT_VALUE)
 
 
-@pytest.fixture(scope='module', params=range(0, 59))
+@pytest.fixture(scope='module', params=compat.range(0, 59))
 def second_valid_numeral(request):
     """
     Fixture that yields back all valid numerals (inclusive) for the "second" field.
@@ -49,7 +50,7 @@ def second_field_valid_numeral_as_str(second_valid_numeral):
     Fixture that yields back a :class:`~crython.field.CronField` for the "second" field created
     with a valid numeral as a string.
     """
-    return field.second(str(second_valid_numeral))
+    return field.second(compat.str(second_valid_numeral))
 
 
 @pytest.fixture(scope='module', params=[
@@ -65,7 +66,7 @@ def second_valid_range(request):
     Fixture that yields a list of values that represent a range of numbers within the bounds
     of the "second" field.
     """
-    return range(*request.param)
+    return compat.range(*request.param)
 
 
 @pytest.fixture(scope='module', params=[
@@ -79,7 +80,7 @@ def second_valid_range_with_step(request):
     Fixture that yields a list of values that represent a range of numbers with a step that are within
     the bounds of the "second" field.
     """
-    return range(*request.param)
+    return compat.range(*request.param)
 
 
 @pytest.fixture(scope='module')
@@ -192,7 +193,7 @@ def second_field_valid_list_csv_str(second_valid_list):
     return field.second(','.join(map(str, second_valid_list)))
 
 
-@pytest.fixture(scope='module', params=range(0, 59))
+@pytest.fixture(scope='module', params=compat.range(0, 59))
 def minute_field_valid_numeral(request):
     """
     Fixture that yields back all valid numerals (inclusive) for the "second" field.
@@ -200,7 +201,7 @@ def minute_field_valid_numeral(request):
     return request.param
 
 
-@pytest.fixture(scope='module', params=range(0, 23))
+@pytest.fixture(scope='module', params=compat.range(0, 23))
 def hour_field_valid_numeral(request):
     """
     Fixture that yields back all valid numerals (inclusive) for the "hour" field.
@@ -208,7 +209,7 @@ def hour_field_valid_numeral(request):
     return request.param
 
 
-@pytest.fixture(scope='module', params=range(1, 31))
+@pytest.fixture(scope='module', params=compat.range(1, 31))
 def day_field_valid_numeral(request):
     """
     Fixture that yields back all valid numerals (inclusive) for the "hour" field.
@@ -216,7 +217,7 @@ def day_field_valid_numeral(request):
     return request.param
 
 
-@pytest.fixture(scope='module', params=range(1, 12))
+@pytest.fixture(scope='module', params=compat.range(1, 12))
 def month_field_valid_numeral(request):
     """
     Fixture that yields back all valid numerals (inclusive) for the "hour" field.
@@ -224,7 +225,7 @@ def month_field_valid_numeral(request):
     return request.param
 
 
-@pytest.fixture(scope='module', params=range(0, 6))
+@pytest.fixture(scope='module', params=compat.range(0, 6))
 def weekday_field_valid_numeral(request):
     """
     Fixture that yields back all valid numerals (inclusive) for the "hour" field.
@@ -232,7 +233,7 @@ def weekday_field_valid_numeral(request):
     return request.param
 
 
-@pytest.fixture(scope='module', params=range(1970, 2099))
+@pytest.fixture(scope='module', params=compat.range(1970, 2099))
 def year_field_valid_numeral(request):
     """
     Fixture that yields back all valid numerals (inclusive) for the "hour" field.
@@ -266,7 +267,7 @@ def _field_matches_single_value_within_bounds(field, value):
     value matches and that no other values within the expected min/max bounds do.
     """
     exact = field.matches(value)
-    others_within_bounds = (field.matches(v) for v in range(field.min, field.max) if v != value)
+    others_within_bounds = (field.matches(v) for v in compat.range(field.min, field.max) if v != value)
     return exact is True and not any(others_within_bounds)
 
 
@@ -276,7 +277,7 @@ def _field_matches_multiple_values_within_bounds(field, values):
     that the given values match and that no other values within the expected min/max bounds do.
     """
     exact = (field.matches(v) for v in values)
-    others_within_bounds = (field.matches(v) for v in range(field.min, field.max) if v not in values)
+    others_within_bounds = (field.matches(v) for v in compat.range(field.min, field.max) if v not in values)
     return all(exact) and not any(others_within_bounds)
 
 
@@ -377,7 +378,8 @@ def test_range_str_with_step_second_field_only_matches_members(second_field_vali
     Assert that the "second" field created from a range string with a step value _only_ matches items
     within the range itself that are multiples of the step and none other within the bounds.
     """
-    assert _field_matches_multiple_values_within_bounds(second_field_valid_range_with_step_str, second_valid_range_with_step)
+    assert _field_matches_multiple_values_within_bounds(second_field_valid_range_with_step_str,
+                                                        second_valid_range_with_step)
 
 
 def test_range_wildcard_str_second_field_matches_all_members_within_bounds(second_field_all_match_range_with_step_str):
@@ -386,9 +388,9 @@ def test_range_wildcard_str_second_field_matches_all_members_within_bounds(secon
     matches items within the range itself that are multiples of the step and none other within the bounds.
     """
     start, stop = second_field_all_match_range_with_step_str.min, second_field_all_match_range_with_step_str.max
-    step = int(second_field_all_match_range_with_step_str.value.split('/')[-1])
+    step = compat.int(second_field_all_match_range_with_step_str.value.split('/')[-1])
     assert _field_matches_multiple_values_within_bounds(second_field_all_match_range_with_step_str,
-                                                        range(start, stop, step))
+                                                        compat.range(start, stop, step))
 
 
 def test_default_minute_field_matches_all_numeral_values(minute_field_valid_numeral):
