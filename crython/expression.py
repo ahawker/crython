@@ -13,7 +13,7 @@ from crython import compat, field, log
 FIELD_COUNT = 7
 
 #: Set of of field names based on the order of values in the tuple as returned by `time.struct_time`.
-STRUCT_TIME_FIELDS = frozenset(['year', 'month', 'day', 'hour', 'minute', 'second', 'weekday'])
+STRUCT_TIME_FIELDS = ('year', 'month', 'day', 'hour', 'minute', 'second', 'weekday')
 
 #: Reserved keyword indicating a "reboot" expression. Reboot expressions should be executed once, immediately upon
 #: startup.
