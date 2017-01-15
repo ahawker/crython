@@ -177,5 +177,28 @@ class CronExpression(compat.object):
         :param dt: A :class:`~datetime.datetime` instance to compare against.
         :return: `True` if matches this expression; `False` otherwise.
         """
-        fields = dict(zip(STRUCT_TIME_FIELDS, dt.timetuple()[:FIELD_COUNT]))
-        return all(fields[k] in v for k, v in self.__dict__.items())
+        def fields_lazy_eval(datetime_fields, expression_fields, field_names=field.NAMES):
+            """
+            Generator function that yields back individual field names and the "match" result of the
+            :class:`~crython.field.CronField` with the :class:`~datetime.datetime` field value.
+
+            :param datetime_fields: Mapping of field name to actual datetime value.
+            :param expression_fields: Mapping of field name to cron field instance.
+            :param field_names: Sequence of field names to use.
+            :return: Generator that yields tuple pairs of field name and the match result.
+            """
+            for name in field_names:
+                field = expression_fields[name]
+                time = datetime_fields[name]
+                match = expression_fields[name].matches(datetime_fields[name])
+                match_str = 'matches' if match else 'does not match'
+                self.logger.debug('Field "{0}:{1}" {2} value "{3}"'.format(name, field, match_str, time))
+                yield (name, match)
+
+        # Build mapping of field name -> value from the given :class:`~datetime.datetime` object and
+        # field name -> :class:`~crython.field.CronField` on this expression instance that is used to
+        # evaluate if the specific datetime value is a match.
+        datetime_fields = dict(zip(STRUCT_TIME_FIELDS, dt.timetuple()[:FIELD_COUNT]))
+        expression_fields = dict((name, self.__dict__[name]) for name in field.NAMES)
+
+        return all(fields_lazy_eval(datetime_fields, expression_fields))
