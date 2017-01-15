@@ -36,12 +36,12 @@ def job(*args, **kwargs):
 
         # Attach metadata to the decorated function that is consumed by the :class:`~crython.tab.CronTab`
         # instance it's registered with.
-        decorator.cron_expression = expression.CronExpression.new(expr, **fields)
-        decorator.ctx = ctx
-        decorator.name = func.__name__
+        wrapper.cron_expression = expression.CronExpression.new(expr, **fields)
+        wrapper.ctx = ctx
+        wrapper.name = func.__name__
 
         # Register our decorated function with the specified crontab for execution.
-        crontab.register(decorator.name, decorator)
+        crontab.register(wrapper.name, wrapper)
 
         return wrapper
     return decorator
