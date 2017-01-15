@@ -23,6 +23,9 @@ EXECUTION_CONTEXTS = {
     'multiprocess': lambda job: multiprocessing.Process(target=job).start(),
 }
 
+#: Default execution context to use if caller does not specify one.
+DEFAULT_EXECUTION_CONTEXT = 'thread'
+
 
 class CronTab(threading.Thread):
     """

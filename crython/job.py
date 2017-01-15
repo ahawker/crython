@@ -20,7 +20,7 @@ def job(*args, **kwargs):
     """
     # Pop out known kwargs that are `crython` specific.
     crontab = kwargs.pop('tab', tab.default_tab)
-    ctx = kwargs.pop('ctx', 'thread')
+    ctx = kwargs.pop('ctx', tab.DEFAULT_EXECUTION_CONTEXT)
     on_success = kwargs.pop('on_success', lambda context: None)
     on_failure = kwargs.pop('on_failure', lambda context: None)
     expr = kwargs.pop('expr', None)
