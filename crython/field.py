@@ -342,7 +342,7 @@ class CronField(compat.object):
 
         raise ValueError('Unknown match of field "{0}" with item "{1}"'.format(value, item))
 
-    def _matches_str_multi_char_field(self, item, start, stop, step=None):
+    def _matches_str_multi_char_field(self, item, start, stop, step=1):
         """
         Check to see if this multi character part (broken into start, stop, and optional step)
         of the field matches the given time value.
@@ -365,7 +365,7 @@ class CronField(compat.object):
 
         # Check to see if the given item is within our range and a multiple of
         # the step/interval, if one was provided.
-        start, stop, step = [compat.int(v) for v in (start, stop, step) if v is not None]
+        start, stop, step = [compat.int(v) for v in (start, stop, step)]
         is_within_range = start <= item <= stop
         is_multiple_of_step = (not step or (item + start) % step == 0)
 
