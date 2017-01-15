@@ -104,8 +104,8 @@ class CronTab(threading.Thread):
                 # Snapshot the current time and check all registered jobs to see if they "match". If so, we should
                 # execute them immediately.
                 now = datetime.datetime.now()
-                for _, job in self.jobs.copy().items():
-                    if now in job.cron:
+                for job in self.jobs.copy().values():
+                    if job.cron_expression.matches(now):
                         EXECUTION_CONTEXTS[job.ctx](job)
 
                 time.sleep(1)
