@@ -6,6 +6,7 @@
 """
 
 import six
+import sys
 
 try:
     import __builtin__ as builtins
@@ -17,6 +18,17 @@ try:
 except ImportError:
     from ordereddict import OrderedDict
 
+
+def is_version(major, minor):
+    version = sys.version_info
+    return version[0] == major and version[1] == minor
+
+
+py26 = is_version(2, 6)
+py27 = is_version(2, 7)
+py33 = is_version(3, 3)
+py34 = is_version(3, 4)
+py35 = is_version(3, 5)
 
 int = builtins.int
 iteritems = six.iteritems
