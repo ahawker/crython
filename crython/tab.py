@@ -11,7 +11,7 @@ import threading
 import multiprocessing
 import time
 
-from crython.log import LOG
+from crython import log
 
 
 __all__ = ['CronTab', 'default_tab', 'start', 'stop']
@@ -40,6 +40,7 @@ class CronTab(threading.Thread):
         self.jobs_lock = threading.RLock()
         self.proc_event = threading.Event()
         self.stop_event = threading.Event()
+        self.logger = kwargs.get('logger') or log.get_logger(__name__)
 
     def register(self, name, job):
         """
@@ -81,7 +82,7 @@ class CronTab(threading.Thread):
         """
         Background function that processes all registered jobs and invokes them based on their context and expression.
         """
-        LOG.info('{0} started'.format(self.name))
+        self.logger.info('{0} started'.format(self.name))
         try:
             # Wait until there is at least one registered job. No point is spinning otherwise.
             self.proc_event.wait()
@@ -97,9 +98,11 @@ class CronTab(threading.Thread):
             while True:
                 self.proc_event.wait()
                 if self.stop_event.is_set():
-                    LOG.info('{0} stopped'.format(self.name))
+                    self.logger.info('{0} stopped'.format(self.name))
                     break
 
+                # Snapshot the current time and check all registered jobs to see if they "match". If so, we should
+                # execute them immediately.
                 now = datetime.datetime.now()
                 for _, job in self.jobs.copy().items():
                     if now in job.cron:
@@ -107,9 +110,9 @@ class CronTab(threading.Thread):
 
                 time.sleep(1)
         except Exception:
-            LOG.exception('{0} encountered unhandled exception'.format(self.name))
+            self.logger.exception('{0} encountered unhandled exception'.format(self.name))
         finally:
-            LOG.info('{0} exiting'.format(self.name))
+            self.logger.info('{0} exiting'.format(self.name))
 
 
 #: The default, global tab instance that is created on import. This is the instance that will be used unless

@@ -6,7 +6,7 @@
 """
 from __future__ import unicode_literals
 
-from crython import compat, field
+from crython import compat, field, log
 
 
 #: Number of fields for a single cron expression.
@@ -143,7 +143,7 @@ class CronExpression(compat.object):
         """
         return cls(*DEFAULT_VALUE.split(), reboot=True)
 
-    def __init__(self, second, minute, hour, day, month, weekday, year, reboot=False):
+    def __init__(self, second, minute, hour, day, month, weekday, year, reboot=False, logger=None):
         self.second = second
         self.minute = minute
         self.hour = hour
@@ -152,6 +152,7 @@ class CronExpression(compat.object):
         self.weekday = weekday
         self.year = year
         self.reboot = reboot
+        self.logger = logger or log.get_logger(__name__)
 
     def __repr__(self):
         return '<{0}({1})>'.format(self.__class__.__name__, compat.str(self))
