@@ -1,47 +1,69 @@
-.PHONY: test-install test tox-install tox travis-install travis-script clean-pyc
+.DEFAULT_GOAL := help
 
-test-install:
-	pip install -q -r requirements/test.txt
+.PHONY: test-install
+test-install:  ## Install dependencies required for local test execution.
+	@pip install -q -r requirements/test.txt
 
-test: test-install
-	py.test tests
+.PHONY: test
+test: test-install  ## Run test suite.
+	@py.test tests
 
-tox-install:
-	pip install -q -r requirements/tox.txt
+.PHONY: tox-install
+tox-install:  ## Install dependencies required for local test execution using tox.
+	@pip install -q -r requirements/tox.txt
 
-tox: tox-install
-	tox
+.PHONY: tox
+tox: tox-install  ## Run test suite using tox.
+	@tox
 
-coveralls-install:
-	pip install -q -r requirements/coveralls.txt
+.PHONY: coveralls-install
+coveralls-install:  ## Install dependencies required for coveralls.io integration.
+	@pip install -q -r requirements/coveralls.txt
 
-codeclimate-install:
-	pip install -q -r requirements/codeclimate.txt
+.PHONY: codeclimate-install
+codeclimate-install:  ## Install dependencies required for codeclimate.com integration.
+	@pip install -q -r requirements/codeclimate.txt
 
-travis-install: coveralls-install codeclimate-install
-	pip install -q -r requirements/travis.txt
+.PHONY: travis-install
+travis-install: coveralls-install codeclimate-install  ## Install dependencies for travis-ci.org integration.
+	@pip install -q -r requirements/travis.txt
 
-travis-script: travis-install tox
+.PHONY: travis-script
+travis-script: travis-install tox  ## Entry point for travis-ci.org execution.
 
-clean-pyc:
-	find . -name '__pycache__' -type d -exec rm -r {} +
-	find . -name '*.pyc' -exec rm -f {} +
-	find . -name '*.pyo' -exec rm -f {} +
-	find . -name '*~' -exec rm -f {} +
+.PHONY: clean-pyc
+clean-pyc:  ## Remove local python cache files.
+	@find . -name '__pycache__' -type d -exec rm -r {} +
+	@find . -name '*.pyc' -exec rm -f {} +
+	@find . -name '*.pyo' -exec rm -f {} +
+	@find . -name '*~' -exec rm -f {} +
 
-bump-patch:
-	bumpversion patch
+.PHONY: bump-patch
+bump-patch:  ## Bump package patch version, e.g. 0.0.1 -> 0.0.2.
+	@bumpversion patch
 
-bump-minor:
-	bumpversion minor
+.PHONY: bump-minor
+bump-minor:  ## Bump package minor version, e.g. 0.1.0 -> 0.2.0.
+	@bumpversion minor
 
-bump-major:
-	bumpversion major
+.PHONY: bump-major
+bump-major:  ## Bump package major version, e.g. 1.0.0 -> 2.0.0.
+	@bumpversion major
 
-git-push-with-tags:
-	git push
-	git push --tags
+.PHONY: git-push-with-tags
+git-push-with-tags:  ## Push latest changes to remote with tags.
+	@git push
+	@git push --tags
 
-push-patch: bump-patch git-push-with-tags
-push-minor: bump-minor git-push-with-tags
-push-major: bump-major git-push-with-tags
+.PHONY: push-patch
+push-patch: bump-patch git-push-with-tags  ## Bump package patch version and push changes to remote.
+
+.PHONY: push-minor
+push-minor: bump-minor git-push-with-tags  ## Bump package minor version and push changes to remote.
+
+.PHONY: push-major
+push-major: bump-major git-push-with-tags  ## Bump package major version and push changes to remote.
+
+.phony: help
+help: ## Print Makefile usage.
+	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
