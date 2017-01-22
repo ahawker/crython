@@ -27,7 +27,7 @@ deploy:
     server: "https://pypi.python.org/pypi"
     user: "Andrew.Hawker"
     password:
-      secure: "H+s5s025SzAeF0iD3R7wy59Cm3wDoCq/CqURTpg4cCd9cgjeOmCPyn8Uvua8SvNlK9p5VAJxyk4sOa2x0L8ijJte6+rRp285E6X8KskFd1iIoHcD9mfIVCvhowL8bZFkEibqdaVZE/mbBjgpm4CZ2PozT1OXK+g15suut21e+4A="
+      secure: "gJd8hwbWMSfC53gmUtYb8UIXxf0jKCIyP5GOQbWYaZhGtyW9artzdqfjLIj6CoBbCfN42UTPJy1dL6I9jrBFyN+E6/xi5cPn0ULnw5k6JkuNgz9p7OoJV8pAO1zAOnc/xLqSyFIoZ8Bzwux2xSkGYdtcJslBFikShzztF99o+io="
     distributions: "sdist bdist_wheel"
     skip_cleanup: true
     on:
