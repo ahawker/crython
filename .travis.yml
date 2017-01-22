@@ -13,10 +13,10 @@ after_success:
   - codeclimate-test-reporter
 deploy:
   - provider: pypi
-    server: https://testpypi.python.org/pypi
+    server: "https://testpypi.python.org/pypi"
     user: "Andrew.Hawker"
     password:
-      secure: PLBAVAAZiNE9AJXx/d5EWOS/gFpD1cKJuJukMc36T1suRf0faXGaSMZ8ULIHg7GV3ptsz+VPavLP+8qeZbxUzpnFyJeD0rdyVKE6gFLn4yzK8Vgn38iT2Wmn4i5GOC3wwGBbbckED+KUQNHfqnyIaSvl1kbtgmlrDWR+51IgumY=
+      secure: "PLBAVAAZiNE9AJXx/d5EWOS/gFpD1cKJuJukMc36T1suRf0faXGaSMZ8ULIHg7GV3ptsz+VPavLP+8qeZbxUzpnFyJeD0rdyVKE6gFLn4yzK8Vgn38iT2Wmn4i5GOC3wwGBbbckED+KUQNHfqnyIaSvl1kbtgmlrDWR+51IgumY="
     distributions: "sdist bdist_wheel"
     skip_cleanup: true
     on:
@@ -24,10 +24,10 @@ deploy:
       tags: false
       condition: $TRAVIS_PYTHON_VERSION = "3.4"
   - provider: pypi
-    server: https://pypi.python.org/pypi
+    server: "https://pypi.python.org/pypi"
     user: "Andrew.Hawker"
     password:
-      secure: H+s5s025SzAeF0iD3R7wy59Cm3wDoCq/CqURTpg4cCd9cgjeOmCPyn8Uvua8SvNlK9p5VAJxyk4sOa2x0L8ijJte6+rRp285E6X8KskFd1iIoHcD9mfIVCvhowL8bZFkEibqdaVZE/mbBjgpm4CZ2PozT1OXK+g15suut21e+4A=
+      secure: "H+s5s025SzAeF0iD3R7wy59Cm3wDoCq/CqURTpg4cCd9cgjeOmCPyn8Uvua8SvNlK9p5VAJxyk4sOa2x0L8ijJte6+rRp285E6X8KskFd1iIoHcD9mfIVCvhowL8bZFkEibqdaVZE/mbBjgpm4CZ2PozT1OXK+g15suut21e+4A="
     distributions: "sdist bdist_wheel"
     skip_cleanup: true
     on:
@@ -36,4 +36,4 @@ deploy:
       condition: $TRAVIS_PYTHON_VERSION = "3.4"
 notifications:
   slack:
-    secure: WCdydHklEv/2ZDuN0IK1wrSOWQS5j257rbgXx1B4CYVj76ugwyvXJjcxkOIX+gwY4J4vNQhXrM0zIxtgL9JxLU9Ox+Knb2hbJYSwc5yPpDcY+cmGcKKUxqWoHNCkxwAX+hOC2LwZYVxBHrIu3PQ5QJ+DeuFtLyHYS2YQg8OTJ44=
+    secure: "WCdydHklEv/2ZDuN0IK1wrSOWQS5j257rbgXx1B4CYVj76ugwyvXJjcxkOIX+gwY4J4vNQhXrM0zIxtgL9JxLU9Ox+Knb2hbJYSwc5yPpDcY+cmGcKKUxqWoHNCkxwAX+hOC2LwZYVxBHrIu3PQ5QJ+DeuFtLyHYS2YQg8OTJ44="
