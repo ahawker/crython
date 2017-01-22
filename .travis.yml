@@ -22,7 +22,7 @@ deploy:
     on:
       branch: master
       tags: false
-      condition: $TRAVIS_PYTHON_VERSION = "2.6"
+      condition: $TRAVIS_PYTHON_VERSION = "3.4"
   - provider: pypi
     server: https://pypi.python.org/pypi
     user: "Andrew.Hawker"
@@ -33,7 +33,7 @@ deploy:
     on:
       branch: master
       tags: true
-      condition: $TRAVIS_PYTHON_VERSION = "2.7"
+      condition: $TRAVIS_PYTHON_VERSION = "3.4"
 notifications:
   slack:
     secure: WCdydHklEv/2ZDuN0IK1wrSOWQS5j257rbgXx1B4CYVj76ugwyvXJjcxkOIX+gwY4J4vNQhXrM0zIxtgL9JxLU9Ox+Knb2hbJYSwc5yPpDcY+cmGcKKUxqWoHNCkxwAX+hOC2LwZYVxBHrIu3PQ5QJ+DeuFtLyHYS2YQg8OTJ44=
