@@ -31,8 +31,8 @@ deploy:
     distributions: "sdist bdist_wheel"
     skip_cleanup: true
     on:
-      branch: master
-      tags: true
+      branch: pypi-debug
+      tags: false
       condition: $TRAVIS_PYTHON_VERSION = "3.4"
 notifications:
   slack:
