@@ -97,7 +97,7 @@ Call a function and run it within a separate process:
 Start the global job scheduler:  
 ```python
     if __name__ == '__main__':
-        crython.tab.run()
+        crython.start()
 ```
 
 ### Keywords
