@@ -1,5 +1,7 @@
 # crython
 
+[![Join the chat at https://gitter.im/crython/Lobby](https://badges.gitter.im/crython/Lobby.svg)](https://gitter.im/crython/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![PyPI version](https://badge.fury.io/py/crython.svg)](https://badge.fury.io/py/crython)
 [![PyPI versions](https://img.shields.io/pypi/pyversions/crython.svg)](https://pypi.python.org/pypi/crython)
 [![PyPI downloads](https://img.shields.io/pypi/dm/crython.svg)](https://pypi.python.org/pypi/crython)
