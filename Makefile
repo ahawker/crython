@@ -74,6 +74,10 @@ push-minor: bump-minor git-push-with-tags  ## Bump package minor version and pus
 .PHONY: push-major
 push-major: bump-major git-push-with-tags  ## Bump package major version and push changes to remote.
 
+.PHONY: docs
+docs:  ## Build project documentation.
+	@make -C docs html
+
 .phony: help
 help: ## Print Makefile usage.
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)

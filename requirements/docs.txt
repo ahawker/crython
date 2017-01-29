@@ -1,0 +1,7 @@
+# crython/requirements/docs.txt
+#
+# Requirements for generating package documentation.
+
+-r base.txt
+
+sphinx_rtd_theme

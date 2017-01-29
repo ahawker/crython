@@ -263,7 +263,7 @@ class CronField(compat.object):
         """
         Check to see if the given time is 'within' the "time" denoted by this individual field.
 
-        TODO - Recomputing this isn't very efficient. Consider converting the field or expression to a `datetime`
+        ..todo:: Recomputing this isn't very efficient. Consider converting the field or expression to a `datetime`
         or `timedelta` instance.
         """
         if not isinstance(item, compat.int):
