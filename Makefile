@@ -38,6 +38,16 @@ clean-pyc:  ## Remove local python cache files.
 	@find . -name '*.pyo' -exec rm -f {} +
 	@find . -name '*~' -exec rm -f {} +
 
+.PHONY: codeclimate
+codeclimate:  ## Run codeclimate analysis.
+	@docker run \
+		--interactive --tty --rm \
+		--env CODECLIMATE_CODE="$(shell pwd)" \
+		--volume "$(shell pwd)":/code \
+		--volume /var/run/docker.sock:/var/run/docker.sock \
+		--volume /tmp/cc:/tmp/cc \
+		codeclimate/codeclimate analyze
+
 .PHONY: bump-patch
 bump-patch:  ## Bump package patch version, e.g. 0.0.1 -> 0.0.2.
 	@bumpversion patch

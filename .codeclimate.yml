@@ -15,4 +15,12 @@ ratings:
   paths:
   - "**.py"
 exclude_paths:
+- .git/
+- .idea/
+- .tox/
 - tests/
+- build/
+- requirements/
+- pylintrc
+- Makefile
+- "*.md"
