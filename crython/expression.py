@@ -9,6 +9,9 @@ from __future__ import unicode_literals
 from crython import compat, field, log
 
 
+__all__ = ['CronExpression']
+
+
 #: Number of fields for a single cron expression.
 FIELD_COUNT = 7
 
@@ -87,16 +90,18 @@ class CronExpression(compat.object):
     """
     Represents an entire cron expression.
 
-    +------------- second (0 - 59)
-    | +------------- minute (0 - 59)
-    | | +------------- hour (0 - 23)
-    | | | +------------- day (1 - 31)
-    | | | | +------------- month (1 - 12)
-    | | | | | +------------- weekday (0 - 6) (Sunday to Saturday; 7 is also Sunday)
-    | | | | | | +------------- year (1970 - 2099)
-    | | | | | | |
-    | | | | | | |
-    * * * * * * *
+    An expression consists of seven, space delimited fields that represent the following values::
+
+        +------------- second (0 - 59)
+        | +------------- minute (0 - 59)
+        | | +------------- hour (0 - 23)
+        | | | +------------- day (1 - 31)
+        | | | | +------------- month (1 - 12)
+        | | | | | +------------- weekday (0 - 6) (Sunday to Saturday; 7 is also Sunday)
+        | | | | | | +------------- year (1970 - 2099)
+        | | | | | | |
+        | | | | | | |
+        * * * * * * *
     """
 
     @classmethod
