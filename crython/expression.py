@@ -198,7 +198,7 @@ class CronExpression(compat.object):
                 match = expression_fields[name].matches(datetime_fields[name])
                 match_str = 'matches' if match else 'does not match'
                 self.logger.debug('Field "{0}:{1}" {2} value "{3}"'.format(name, field, match_str, time))
-                yield (name, match)
+                yield match
 
         # Build mapping of field name -> value from the given :class:`~datetime.datetime` object and
         # field name -> :class:`~crython.field.CronField` on this expression instance that is used to
