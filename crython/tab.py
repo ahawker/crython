@@ -33,7 +33,7 @@ class CronTab(threading.Thread):
     """
 
     def __init__(self, *args, **kwargs):
-        super(CronTab, self).__init__(*args, **kwargs)
+        super(CronTab, self).__init__()
         self.name = 'CronTab ({0})'.format(kwargs.get('name', id(self)))
         self.daemon = True
         self.jobs = {}
