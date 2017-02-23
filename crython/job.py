@@ -25,6 +25,7 @@ def job(*args, **kwargs):
     on_failure = kwargs.pop('on_failure', lambda context: None)
     expr = kwargs.pop('expr', None)
     fields = dict((k, kwargs.pop(k)) for k in kwargs.keys() if k in field.NAMES)
+    name = kwargs.pop('name', None)
 
     def decorator(func):
         @functools.wraps(func)
@@ -38,7 +39,10 @@ def job(*args, **kwargs):
         # instance it's registered with.
         wrapper.cron_expression = expression.CronExpression.new(expr, **fields)
         wrapper.ctx = ctx
-        wrapper.name = func.__name__
+        if name:
+            wrapper.name = name
+        else:
+            wrapper.name = func.__name__
 
         # Register our decorated function with the specified crontab for execution.
         crontab.register(wrapper.name, wrapper)
