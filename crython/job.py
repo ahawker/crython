@@ -25,7 +25,8 @@ def job(*args, **kwargs):
     on_failure = kwargs.pop('on_failure', lambda context: None)
     expr = kwargs.pop('expr', None)
     fields = dict((k, kwargs.pop(k)) for k in kwargs.keys() if k in field.NAMES)
-    name=kwargs.pop('name',None)
+    name = kwargs.pop('name', None)
+
     def decorator(func):
         @functools.wraps(func)
         def wrapper():
@@ -39,7 +40,7 @@ def job(*args, **kwargs):
         wrapper.cron_expression = expression.CronExpression.new(expr, **fields)
         wrapper.ctx = ctx
         if name:
-            wrapper.name=name
+            wrapper.name = name
         else:
             wrapper.name = func.__name__
 
