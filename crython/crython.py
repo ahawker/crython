@@ -19,6 +19,8 @@ MON_ABBR = dict((v.lower(),k) for k,v in enumerate(calendar.month_abbr))    #(ex
 PHRASES  = dict(DAY_NAME.items() + DAY_ABBR.items() + MON_NAME.items() + MON_ABBR.items())
 PHRASES_REGEX = re.compile('|'.join(PHRASES.keys()).lstrip('|'), flags=re.IGNORECASE)
 
+print('Some excellent feature.')
+
 class CronField(object):
     SPECIALS   = set(['*', '/', '%', ',', '-', 'L', 'W', '#', '?'])
 
