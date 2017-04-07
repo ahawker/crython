@@ -135,7 +135,7 @@ def _check_and_parse_if_number(value):
     :return: A two item tuple containing a boolean indicating the conversion success and the converted value.
     """
     value = _int_try_parse(value)
-    return isinstance(value, compat.int), value
+    return isinstance(value, compat.int_types), value
 
 
 def _invalid_special_chars(value, valid_specials, all_specials=ALL_SPECIALS):
@@ -166,9 +166,9 @@ class CronField(compat.object):
         :param kwargs: Additional keyword args
         :return: A :class:`~crython.field.CronField`
         """
-        if isinstance(value, compat.int):
+        if isinstance(value, compat.int_types):
             return cls.from_number(value, name, *args, **kwargs)
-        if isinstance(value, compat.str):
+        if isinstance(value, compat.str_types):
             return cls.from_str(value, name, *args, **kwargs)
         if isinstance(value, collections.Iterable):
             return cls.from_iterable(value, name, *args, **kwargs)
@@ -266,12 +266,12 @@ class CronField(compat.object):
         ..todo:: Recomputing this isn't very efficient. Consider converting the field or expression to a `datetime`
         or `timedelta` instance.
         """
-        if not isinstance(item, compat.int):
+        if not isinstance(item, compat.int_types):
             raise ValueError('Expected comparison with item of type int; got {0}'.format(type(item)))
 
-        if isinstance(self.value, compat.int):
+        if isinstance(self.value, compat.int_types):
             return self._matches_number(item)
-        if isinstance(self.value, compat.str):
+        if isinstance(self.value, compat.str_types):
             return self._matches_str(item)
         if isinstance(self.value, collections.Iterable):
             return self._matches_iterable(item)

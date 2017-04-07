@@ -38,5 +38,8 @@ range = six.moves.range
 str = str if six.PY3 else unicode
 zip = six.moves.zip
 
+int_types = six.integer_types
+str_types = six.string_types
+
 
 __all__ = []
