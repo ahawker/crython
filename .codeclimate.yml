@@ -25,3 +25,4 @@ exclude_paths:
 - pylintrc
 - Makefile
 - "*.md"
+- docs/_build/
