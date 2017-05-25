@@ -24,7 +24,7 @@ def job(*args, **kwargs):
     on_success = kwargs.pop('on_success', lambda context: None)
     on_failure = kwargs.pop('on_failure', lambda context: None)
     expr = kwargs.pop('expr', None)
-    fields = dict((k, kwargs.pop(k)) for k in kwargs.keys() if k in field.NAMES)
+    fields = dict((k, kwargs.pop(k)) for k in list(kwargs.keys()) if k in field.NAMES)
 
     def decorator(func):
         @functools.wraps(func)
