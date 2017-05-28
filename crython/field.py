@@ -367,7 +367,7 @@ class CronField(compat.object):
         # the step/interval, if one was provided.
         start, stop, step = [compat.int(v) for v in (start, stop, step)]
         is_within_range = start <= item <= stop
-        is_multiple_of_step = (not step or (item + start) % step == 0)
+        is_multiple_of_step = (not step or (item - start) % step == 0)
 
         return is_within_range and is_multiple_of_step
 
