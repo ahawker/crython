@@ -408,7 +408,7 @@ month = functools.partial(CronField.new, name='month', min=1, max=12,
                                               RANGE_STEP_DELIMITER, VALUE_DELIMITER]))
 
 #: Partial for creating a :class:`~crython.CronField` that represents the "day of week".
-weekday = functools.partial(CronField.new, name='weekday', min=0, max=6,
+weekday = functools.partial(CronField.new, name='weekday', min=0, max=7,
                             specials=frozenset([ALL, RANGE_DELIMITER,
                                                 RANGE_STEP_DELIMITER, VALUE_DELIMITER,
                                                 NON_SPECIFIC, LAST, NTH]))

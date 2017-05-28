@@ -204,6 +204,7 @@ class CronExpression(compat.object):
         # field name -> :class:`~crython.field.CronField` on this expression instance that is used to
         # evaluate if the specific datetime value is a match.
         datetime_fields = dict(zip(STRUCT_TIME_FIELDS, dt.timetuple()[:FIELD_COUNT]))
+        datetime_fields[field.WEEKDAY_NAME] = (datetime_fields[field.WEEKDAY_NAME] + 1) % 7
         expression_fields = dict((name, self.__dict__[name]) for name in field.NAMES)
 
         return all(fields_lazy_eval(datetime_fields, expression_fields))

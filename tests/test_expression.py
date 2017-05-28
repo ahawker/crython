@@ -32,7 +32,6 @@ def reserved_keywords(request):
     dict(month=0),
     dict(month=13),
     dict(weekday=-1),
-    dict(weekday=7),  # TODO - #9
     dict(weekday=8),
     dict(year=0),
     dict(year=1969),
