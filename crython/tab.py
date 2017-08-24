@@ -89,7 +89,7 @@ class CronTab(threading.Thread):
 
             # Pop and execute any jobs that should be run at "reboot". Reboot, in this context, is just whenever
             # the executor starts running.
-            for job in (self.jobs.pop(k) for (k, v) in self.jobs.items() if v.cron_expression.is_reboot):
+            for job in (self.jobs.pop(k) for (k, v) in list(self.jobs.items()) if v.cron_expression.is_reboot):
                 EXECUTION_CONTEXTS[job.ctx](job)
 
             # Spin loop.
