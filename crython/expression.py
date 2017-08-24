@@ -56,7 +56,7 @@ def _expression_str_to_dict(expression, expression_field_count=FIELD_COUNT, fiel
     """
     # If we were given the reboot keyword, return the sentinel object back as we don't have a valid cron expression
     # to represent this case.
-    if expression is REBOOT_KEYWORD:
+    if expression == REBOOT_KEYWORD:
         return reboot_sentinel
 
     # If the expression is a keyword, convert it to its space-delimited format,
