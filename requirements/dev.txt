@@ -4,4 +4,5 @@
 
 -r base.txt
 
+bumpversion==0.5.3
 pylint==1.7.4
