@@ -1,0 +1,7 @@
+# crython/requirements/dev.txt
+#
+# Requirements for development.
+
+-r base.txt
+
+pylint==1.7.4
