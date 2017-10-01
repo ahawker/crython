@@ -48,6 +48,13 @@ codeclimate:  ## Run codeclimate analysis.
 		--volume /tmp/cc:/tmp/cc \
 		codeclimate/codeclimate analyze
 
+.PHONY: pylint
+pylint:  ## Run pylint on the package.
+	@pylint --rcfile .pylintrc crython
+
+.PHONY: lint
+lint:  pylint  ## Run linters on the package.
+
 .PHONY: bump-patch
 bump-patch:  ## Bump package patch version, e.g. 0.0.1 -> 0.0.2.
 	@bumpversion patch
