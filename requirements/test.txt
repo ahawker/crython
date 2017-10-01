@@ -2,7 +2,7 @@
 # 
 # Requirements for executing the crython test suite.
 
--r base.txt
+-r dev.txt
 
 nose  # TODO - Remove after stdlib -> pytest refactor.
 pytest
