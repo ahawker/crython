@@ -20,16 +20,12 @@ tox-install: build-install  ## Install dependencies required for local test exec
 tox: tox-install  ## Run test suite using tox.
 	@tox
 
-.PHONY: coveralls-install
-coveralls-install: build-install  ## Install dependencies required for coveralls.io integration.
-	@pip install -q -r requirements/coveralls.txt
-
 .PHONY: codeclimate-install
 codeclimate-install: build-install  ## Install dependencies required for codeclimate.com integration.
 	@pip install -q -r requirements/codeclimate.txt
 
 .PHONY: travis-install
-travis-install: build-install coveralls-install codeclimate-install  ## Install dependencies for travis-ci.org integration.
+travis-install: build-install codeclimate-install  ## Install dependencies for travis-ci.org integration.
 	@pip install -q -r requirements/travis.txt
 
 .PHONY: travis-script
