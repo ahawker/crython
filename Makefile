@@ -56,6 +56,10 @@ fixme:  ## Run pylint using only the 'fixme' checker.
 pylint:  ## Run pylint on the package.
 	@pylint --rcfile .pylintrc crython
 
+.PHONY: scan
+scan: test-install  ## Run 'safety' to check package dependencies for vulnerabilities.
+	@safety check
+
 .PHONY: lint
 lint:  pylint  ## Run linters on the package.
 
