@@ -98,7 +98,7 @@ ALL_SPECIALS = frozenset([ALL, NON_SPECIFIC, VALUE_DELIMITER, RANGE_DELIMITER,
                           RANGE_STEP_DELIMITER, LAST, WEEKDAY, NTH])
 
 
-def _phrase_to_numeral(phrase, phrases=PHRASES, regex=PHRASES_REGEX):
+def _phrase_to_numeral(phrase, phrases=None, regex=PHRASES_REGEX):
     """
     Replace any full or abbreviated english dow/mon phrases (Jan, Monday, etc) from the field value
     with its respective integer value as a string.
@@ -108,6 +108,8 @@ def _phrase_to_numeral(phrase, phrases=PHRASES, regex=PHRASES_REGEX):
     :param regex: (Optional) Mapping of english word to integer value; Default: PHRASES_REGEX
     :return: String representation of integer value of the given english word
     """
+    phrases = phrases or PHRASES
+
     def _repl(match):
         return compat.str(phrases[match.group(0).lower()])
 
