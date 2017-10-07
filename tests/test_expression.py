@@ -121,7 +121,7 @@ def test_cron_expression_from_reboot_returns_proper_expression():
     Assert that :meth:`~crython.expression.CronExpression.new` returns a :class:`~crython.expression.CronExpression`
     that evaluates to a reboot expression.
     """
-    expr = expression.CronExpression.reboot()
+    expr = expression.CronExpression.from_reboot()
     assert expr.is_reboot is True
 
 

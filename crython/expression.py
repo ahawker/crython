@@ -127,7 +127,7 @@ class CronExpression(compat.object):
         :return: A :class:`~crython.expression.CronExpression` that represents the given string.
         """
         fields = _expression_str_to_dict(expression, reboot_sentinel=reboot_sentinel)
-        return cls.reboot() if fields is reboot_sentinel else cls.from_kwargs(**fields)
+        return cls.from_reboot() if fields is reboot_sentinel else cls.from_kwargs(**fields)
 
     @classmethod
     def from_kwargs(cls, **kwargs):
@@ -141,7 +141,7 @@ class CronExpression(compat.object):
         return cls(*fields)
 
     @classmethod
-    def reboot(cls):
+    def from_reboot(cls):
         """
         Create a :class:`~crython.expression.CronExpression` instance that indicates it's a "reboot" expression.
         A "reboot" expression means that it should be executed during startup and as soon as possible.
