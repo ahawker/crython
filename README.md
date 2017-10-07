@@ -37,7 +37,7 @@ Call a function once a minute:
 ```python
     import crython
     
-    #Fire once a minute.
+    # Fire once a minute.
     @crython.job(second=0)
     def foo():
         print "... while heavy sack beatings are up a shocking nine hundred percent? - Kent Brockman"
@@ -45,7 +45,7 @@ Call a function once a minute:
         
 Call a function every ten seconds:  
 ```python
-    #Fire every 10 seconds.
+    # Fire every 10 seconds.
     @crython.job(second=range(0,60,10))
     def foo():
         print "I'm a big four-eyed lame-o and I wear the same stupid sweater every day. - Homer's Brain"
@@ -53,7 +53,7 @@ Call a function every ten seconds:
 
 Call a function with a single cron expression:
 ```python
-    #Fire every 10 seconds.
+    # Fire every 10 seconds.
     @crython.job(second='*/10')
     def foo():
         print "Hail to the thee Kamp Krusty... - Kampers"
@@ -61,7 +61,7 @@ Call a function with a single cron expression:
         
 Call a function with a full cron expression:
 ```python
-    #Fire once a week.
+    # Fire once a week.
     @crython.job(expr='0 0 0 * * 0 *')
     def foo():
         print "Back in line, maggot! - Kearny"
@@ -69,7 +69,7 @@ Call a function with a full cron expression:
 
 Call a function with positional and/or keyword arguments:
 ```python
-    #Fire every second.
+    # Fire every second.
     @job('safety gloves', second='*', name='Homer Simpson')
     def foo(item, name):
         print "Well, I don't need {0}, because I'm {1}. -- Grimey".format(item, name)
@@ -77,14 +77,14 @@ Call a function with positional and/or keyword arguments:
 
 Call a function using [predefined keywords](https://github.com/ahawker/crython#keywords):
 ```python
-    #Fire once a day.
+    # Fire once a day.
     @crython.job(expr='@daily')
     def foo():
         print "That's where I saw the leprechaun. He tells me to burn things! - Ralph Wiggum"
 ```
 
 ```python
-    #Fire once immediately after scheduler starts.
+    # Fire once immediately after scheduler starts.
     @crython.job(expr='@reboot')
     def foo():
         print "I call the big one bitey. - Homer Simpson"
@@ -92,7 +92,7 @@ Call a function using [predefined keywords](https://github.com/ahawker/crython#k
 
 Call a function and run it within a separate process:
 ```python
-    #Fire every hour.
+    # Fire every hour.
     @crython.job(expr='@hourly', ctx='process')
     def foo():
         print "No, no, dig up stupid. - Chief Wiggum"
