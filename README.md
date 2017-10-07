@@ -46,7 +46,7 @@ Call a function once a minute:
 Call a function every ten seconds:  
 ```python
     # Fire every 10 seconds.
-    @crython.job(second=range(0,60,10))
+    @crython.job(second=range(0, 60, 10))
     def foo():
         print "I'm a big four-eyed lame-o and I wear the same stupid sweater every day. - Homer's Brain"
 ```
