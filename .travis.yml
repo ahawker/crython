@@ -11,6 +11,8 @@ matrix:
   include:
     - python: '3.6'
       env: TOXENV=lint
+    - python: '3.6'
+      env: TOXENV=fixme
 install: make travis-install
 script: make travis-script
 after_success:
