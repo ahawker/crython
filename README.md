@@ -2,14 +2,16 @@
 
 [![Join the chat at https://gitter.im/crython/Lobby](https://badges.gitter.im/crython/Lobby.svg)](https://gitter.im/crython/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![PyPI version](https://badge.fury.io/py/crython.svg)](https://badge.fury.io/py/crython)
-[![PyPI versions](https://img.shields.io/pypi/pyversions/crython.svg)](https://pypi.python.org/pypi/crython)
-[![PyPI downloads](https://img.shields.io/pypi/dm/crython.svg)](https://pypi.python.org/pypi/crython)
 [![Build Status](https://travis-ci.org/ahawker/crython.png)](https://travis-ci.org/ahawker/crython)
 [![Coverage Status](https://coveralls.io/repos/ahawker/crython/badge.png?branch=master)](https://coveralls.io/r/ahawker/crython)
-[![Stories in Ready](https://badge.waffle.io/ahawker/crython.svg?label=ready&title=Ready)](http://waffle.io/ahawker/crython)
+[![Test Coverage](https://codeclimate.com/github/ahawker/crython/badges/coverage.svg)](https://codeclimate.com/github/ahawker/crython/coverage)
 [![Code Climate](https://codeclimate.com/github/ahawker/crython/badges/gpa.svg)](https://codeclimate.com/github/ahawker/crython)
 [![Issue Count](https://codeclimate.com/github/ahawker/crython/badges/issue_count.svg)](https://codeclimate.com/github/ahawker/crython)
+
+[![PyPI version](https://badge.fury.io/py/crython.svg)](https://badge.fury.io/py/crython)
+[![PyPI versions](https://img.shields.io/pypi/pyversions/crython.svg)](https://pypi.python.org/pypi/crython)
+
+[![Stories in Ready](https://badge.waffle.io/ahawker/crython.svg?label=ready&title=Ready)](http://waffle.io/ahawker/crython)
 
 crython is a lightweight task (function) scheduler using [cron](http://en.wikipedia.org/wiki/Cron) expressions written in python.
 
