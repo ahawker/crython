@@ -43,7 +43,7 @@ DEFAULT_VALUE = ' '.join(field.DEFAULT_VALUE * FIELD_COUNT)
 
 
 def _expression_str_to_dict(expression, expression_field_count=FIELD_COUNT, field_names=field.NAMES,
-                            expression_keywords=RESERVED_KEYWORDS, reboot_sentinel=REBOOT_SENTINEL):
+                            expression_keywords=None, reboot_sentinel=REBOOT_SENTINEL):
     """
     Convert the given cron expression in string form to a dict mapping each field to its value.
 
@@ -54,6 +54,8 @@ def _expression_str_to_dict(expression, expression_field_count=FIELD_COUNT, fiel
     :param reboot_sentinel: (Optional) Object that indicates the expression is a reboot; Default: REBOOT_SENTINEL
     :return: Dict containing name -> value for all fields of the cron expression.
     """
+    expression_keywords = expression_keywords or RESERVED_KEYWORDS
+
     # If we were given the reboot keyword, return the sentinel object back as we don't have a valid cron expression
     # to represent this case.
     if expression == REBOOT_KEYWORD:
