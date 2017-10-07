@@ -4,9 +4,10 @@
 
     Contains backwards and forwards compatibility across python versions.
 """
+# pylint: disable=redefined-builtin, invalid-name, undefined-variable
+import sys
 
 import six
-import sys
 
 try:
     import __builtin__ as builtins
@@ -14,12 +15,15 @@ except ImportError:
     import builtins
 
 try:
-    from collections import OrderedDict
+    from collections import OrderedDict  # pylint: disable=unused-import
 except ImportError:
     from ordereddict import OrderedDict
 
 
 def is_version(major, minor):
+    """
+    Check to see if current python interpreter is given major/minor version.
+    """
     version = sys.version_info
     return version[0] == major and version[1] == minor
 
