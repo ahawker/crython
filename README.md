@@ -16,7 +16,7 @@
 crython is a lightweight task (function) scheduler using [cron](http://en.wikipedia.org/wiki/Cron) expressions written in python.
 
 ### Status
-This module is currently under development.
+This module is actively maintained.
 
 ### Installation
 To install crython from [pip](https://pypi.python.org/pypi/pip):

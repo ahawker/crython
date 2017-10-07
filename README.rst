@@ -17,7 +17,7 @@ python.
 Status
 ~~~~~~
 
-This module is currently under development.
+This module is actively maintained.
 
 Installation
 ~~~~~~~~~~~~
