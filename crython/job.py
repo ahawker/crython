@@ -26,13 +26,13 @@ def job(*args, **kwargs):
     expr = kwargs.pop('expr', None)
     fields = dict((k, kwargs.pop(k)) for k in list(kwargs.keys()) if k in field.NAMES)
 
-    def decorator(func):
+    def decorator(func):  # pylint: disable=missing-docstring
         @functools.wraps(func)
-        def wrapper():
+        def wrapper():  # pylint: disable=missing-docstring
             try:
                 return on_success(func(*args, **kwargs))
-            except Exception as e:
-                return on_failure(e)
+            except Exception as ex:  # pylint: disable=broad-except
+                return on_failure(ex)
 
         # Attach metadata to the decorated function that is consumed by the :class:`~crython.tab.CronTab`
         # instance it's registered with.
