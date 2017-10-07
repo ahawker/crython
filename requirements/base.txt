@@ -2,5 +2,5 @@
 #
 # Requirements for using the crython package.
 
-ordereddict; python_version < '2.7'
-six
+ordereddict==1.1; python_version < '2.7'
+six==1.11.0

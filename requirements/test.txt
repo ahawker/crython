@@ -4,8 +4,9 @@
 
 -r dev.txt
 
-nose  # TODO - Remove after stdlib -> pytest refactor.
-pytest
-pytest-cov
-pytest-mock
-pytest-pep8
+coverage==4.4.1
+
+pytest==3.2.3
+pytest-cov==2.5.1
+pytest-mock==1.6.3
+pytest-pep8==1.0.6

@@ -4,4 +4,4 @@
 
 -r travis.txt
 
-coveralls
+coveralls==1.2.0
