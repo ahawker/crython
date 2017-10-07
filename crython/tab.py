@@ -4,6 +4,7 @@
 
     Contains functionality for executing jobs (python functions) from cron expressions.
 """
+#  pylint: disable=global-statement, invalid-name
 from __future__ import unicode_literals
 
 import datetime
@@ -109,7 +110,7 @@ class CronTab(threading.Thread):
                         EXECUTION_CONTEXTS[job.ctx](job)
 
                 time.sleep(1)
-        except Exception:
+        except Exception:  # pylint: disable=broad-except
             self.logger.exception('{0} encountered unhandled exception'.format(self.name))
         finally:
             self.logger.info('{0} exiting'.format(self.name))
