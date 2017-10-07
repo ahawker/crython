@@ -195,9 +195,9 @@ class CronExpression(compat.object):
             :return: Generator that yields tuple pairs of field name and the match result.
             """
             for name in field_names:
-                field = expression_fields[name]
+                field = expression_fields[name]  # pylint: disable=redefined-outer-name
                 time = datetime_fields[name]
-                match = expression_fields[name].matches(datetime_fields[name])
+                match = field.matches(datetime_fields[name])
                 match_str = 'matches' if match else 'does not match'
                 self.logger.debug('Field "{0}:{1}" {2} value "{3}"'.format(name, field, match_str, time))
                 yield match
