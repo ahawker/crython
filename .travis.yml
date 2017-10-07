@@ -19,7 +19,6 @@ matrix:
 install: make travis-install
 script: make travis-script
 after_success:
-- coveralls
 - codeclimate-test-reporter
 deploy:
 - provider: pypi
