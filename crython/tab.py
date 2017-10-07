@@ -64,7 +64,7 @@ class CronTab(threading.Thread):
         with self.jobs_lock:
             if name in self.jobs:
                 del self.jobs[name]
-                if not len(self.jobs):
+                if not self.jobs:
                     self.proc_event.clear()
 
     def stop(self):
