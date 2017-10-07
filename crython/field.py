@@ -4,6 +4,7 @@
 
     Contains functionality for representing an individual field within an expression.
 """
+# pylint: disable=redefined-builtin, invalid-name
 from __future__ import unicode_literals
 
 import calendar
