@@ -65,7 +65,7 @@ scan: test-install  ## Run 'safety' to check package dependencies for vulnerabil
 	@safety check
 
 .PHONY: lint
-lint:  pylint  ## Run linters on the package.
+lint:  pylint seclint  ## Run linters on the package.
 
 .PHONY: bump-patch
 bump-patch:  ## Bump package patch version, e.g. 0.0.1 -> 0.0.2.
