@@ -48,6 +48,10 @@ codeclimate:  ## Run codeclimate analysis.
 		--volume /tmp/cc:/tmp/cc \
 		codeclimate/codeclimate analyze
 
+.PHONY: seclint
+seclint:  ## Run bandit on the package.
+	@bandit -v -r crython
+
 .PHONY: fixme
 fixme:  ## Run pylint using only the 'fixme' checker.
 	@pylint --disable=all --enable=W0511 crython
