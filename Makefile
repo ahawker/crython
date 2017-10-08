@@ -1,5 +1,9 @@
 .DEFAULT_GOAL := help
 
+.PHONY: changelog
+changelog:  ## Build CHANGELOG.md from repository metadata.
+	@github_changelog_generator -u ahawker -p crython
+
 .PHONY: build-install
 build-install:  ## Install dependencies required for local package building.
 	@pip install -q -r requirements/build.txt
