@@ -7,3 +7,4 @@
 bumpversion==0.5.3
 pylint==1.7.4
 safety==1.5.1
+bandit==1.4.0
