@@ -24,7 +24,7 @@ after_success:
 - codeclimate-test-reporter
 deploy:
 - provider: pypi
-  server: https://test.pypi.org/legacy
+  server: https://test.pypi.org/legacy/
   user: Andrew.Hawker
   password:
     secure: PLBAVAAZiNE9AJXx/d5EWOS/gFpD1cKJuJukMc36T1suRf0faXGaSMZ8ULIHg7GV3ptsz+VPavLP+8qeZbxUzpnFyJeD0rdyVKE6gFLn4yzK8Vgn38iT2Wmn4i5GOC3wwGBbbckED+KUQNHfqnyIaSvl1kbtgmlrDWR+51IgumY=
@@ -35,7 +35,7 @@ deploy:
     tags: false
     condition: $TRAVIS_PYTHON_VERSION = "3.4"
 - provider: pypi
-  server: https://upload.pypi.org/legacy
+  server: https://upload.pypi.org/legacy/
   user: Andrew.Hawker
   password:
     secure: gJd8hwbWMSfC53gmUtYb8UIXxf0jKCIyP5GOQbWYaZhGtyW9artzdqfjLIj6CoBbCfN42UTPJy1dL6I9jrBFyN+E6/xi5cPn0ULnw5k6JkuNgz9p7OoJV8pAO1zAOnc/xLqSyFIoZ8Bzwux2xSkGYdtcJslBFikShzztF99o+io=
