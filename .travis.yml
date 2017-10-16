@@ -50,3 +50,6 @@ notifications:
     secure: WCdydHklEv/2ZDuN0IK1wrSOWQS5j257rbgXx1B4CYVj76ugwyvXJjcxkOIX+gwY4J4vNQhXrM0zIxtgL9JxLU9Ox+Knb2hbJYSwc5yPpDcY+cmGcKKUxqWoHNCkxwAX+hOC2LwZYVxBHrIu3PQ5QJ+DeuFtLyHYS2YQg8OTJ44=
   webhook:
     secure: lj8ylOT/ivnpReyLgu3+I7zPXvn0O559wBRd2up036CSmxPH7pOOA7xH6RWINtkCpVSjeSfd7d8kBwwXWc+VOl0qJ1xA/UwTwD56MCv9rmmvdNglSMnyAY45hSYbUaCoLbUgXqS+878HrboxV9YvfAf71/dfRknzMu2ABhnBvtU=
+env:
+  global:
+  - VIRTUALENV_NO_DOWNLOAD=1
