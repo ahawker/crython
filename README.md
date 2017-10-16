@@ -3,7 +3,7 @@
 [![Join the chat at https://gitter.im/crython/Lobby](https://badges.gitter.im/crython/Lobby.svg)](https://gitter.im/crython/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Build Status](https://travis-ci.org/ahawker/crython.png)](https://travis-ci.org/ahawker/crython)
-[![Test Coverage](https://codeclimate.com/github/ahawker/crython/badges/coverage.svg)](https://codeclimate.com/github/ahawker/crython/coverage)
+[![codecov](https://codecov.io/gh/ahawker/crython/branch/master/graph/badge.svg)](https://codecov.io/gh/ahawker/crython)
 [![Code Climate](https://codeclimate.com/github/ahawker/crython/badges/gpa.svg)](https://codeclimate.com/github/ahawker/crython)
 [![Issue Count](https://codeclimate.com/github/ahawker/crython/badges/issue_count.svg)](https://codeclimate.com/github/ahawker/crython)
 

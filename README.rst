@@ -3,7 +3,7 @@ crython
 
 |Join the chat at https://gitter.im/crython/Lobby|
 
-|Build Status| |Test Coverage| |Code Climate| |Issue Count|
+|Build Status| |codecov| |Code Climate| |Issue Count|
 
 |PyPI version| |PyPI versions|
 
@@ -254,8 +254,8 @@ There are similar python cron libraries out there. See:
    :target: https://gitter.im/crython/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 .. |Build Status| image:: https://travis-ci.org/ahawker/crython.png
    :target: https://travis-ci.org/ahawker/crython
-.. |Test Coverage| image:: https://codeclimate.com/github/ahawker/crython/badges/coverage.svg
-   :target: https://codeclimate.com/github/ahawker/crython/coverage
+.. |codecov| image:: https://codecov.io/gh/ahawker/crython/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/ahawker/crython
 .. |Code Climate| image:: https://codeclimate.com/github/ahawker/crython/badges/gpa.svg
    :target: https://codeclimate.com/github/ahawker/crython
 .. |Issue Count| image:: https://codeclimate.com/github/ahawker/crython/badges/issue_count.svg
