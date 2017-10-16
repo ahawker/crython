@@ -32,6 +32,11 @@ codeclimate-install: build-install  ## Install dependencies required for codecli
 travis-install: build-install codeclimate-install  ## Install dependencies for travis-ci.org integration.
 	@pip install -q -r requirements/travis.txt
 
+.PHONY: travis-before-script
+travis-before-script: travis-install  ## Entry point for travis-ci.org 'before_script' execution.
+	@curl -s https://codecov.io/bash > ./codecov
+	@chmod +x ./codecov
+
 .PHONY: travis-script
 travis-script: travis-install tox  ## Entry point for travis-ci.org execution.
 
