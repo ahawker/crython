@@ -9,15 +9,15 @@ python:
 - '3.6'
 matrix:
   allow_failures:
-    - python: '3.6'
-      env: TOXENV=fixme
+  - python: '3.6'
+    env: TOXENV=fixme
   include:
-    - python: '3.6'
-      env: TOXENV=lint
-    - python: '3.6'
-      env: TOXENV=fixme
-    - python: '3.6'
-      env: TOXENV=scan
+  - python: '3.6'
+    env: TOXENV=lint
+  - python: '3.6'
+    env: TOXENV=fixme
+  - python: '3.6'
+    env: TOXENV=scan
 install: make travis-install
 script: make travis-script
 after_success:
