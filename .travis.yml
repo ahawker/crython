@@ -53,3 +53,4 @@ notifications:
 env:
   global:
   - VIRTUALENV_NO_DOWNLOAD=1
+  - secure: LX0BnEQCQAfm6IdBdU1t4EgNjysllBHAd582wPNSp9pDeZ4VLEEx8wI6he1Iff5mPcdWm9qlN9KypHCvl/A07RusFWqMOcSPkOzBfLOKqBdOorfakVE/ENTTrulLqaOyK++7sK90DOKr3ZXAeMrTt18rR2pU4Cu85bzR0eYTq/4=
