@@ -2,4 +2,4 @@
 #
 # Requirements necessary to build the crython package.
 
-setuptools==36.8.0
+setuptools==37.0.0
