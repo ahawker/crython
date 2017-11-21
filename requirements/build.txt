@@ -2,4 +2,5 @@
 #
 # Requirements necessary to build the crython package.
 
-setuptools==37.0.0
+setuptools==36.8.0; python_version < '2.7'  # pyup: ignore
+setuptools==37.0.0; python_version > '2.7'
