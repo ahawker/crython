@@ -10,5 +10,5 @@ pytest<3.3.0; python_version < '2.7' or (python_version > '3.0' and python_versi
 pytest==3.4.1; (python_version > '2.7' and python_version < '3.0') or python_version >= '3.4'
 pytest-cov==2.5.1
 pytest-mock==1.6.3; python_version < '2.7' or (python_version > '3.0' and python_version < '3.4')  # pyup: ignore
-pytest-mock==1.7.0; (python_version > '2.7' and python_version < '3.0') or python_version >= '3.4'
+pytest-mock==1.7.1; (python_version > '2.7' and python_version < '3.0') or python_version >= '3.4'
 pytest-pep8==1.0.6
