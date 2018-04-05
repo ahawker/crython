@@ -29,7 +29,6 @@ def is_version(major, minor):
 
 
 py27 = is_version(2, 7)
-py33 = is_version(3, 3)
 py34 = is_version(3, 4)
 py35 = is_version(3, 5)
 py36 = is_version(3, 6)
