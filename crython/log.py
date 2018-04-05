@@ -7,14 +7,7 @@
 # pylint: disable=global-statement
 import logging
 
-from crython import compat
-
-
 ROOT_LOGGER = None
-
-
-if compat.py26:
-    logging._loggerClass.getChild = lambda s, name: '{0}.{1}'.format(s.name, name)  # pylint: disable=protected-access
 
 
 def get_logger(name=None):
