@@ -89,12 +89,20 @@ Call a function using [predefined keywords](https://github.com/ahawker/crython#k
         print "I call the big one bitey. - Homer Simpson"
 ```
 
+Call a function and run it within a separate thread (default behaviour if `ctx` is not specified):
+```python
+    # Fire once a week.
+    @crython.job(expr='@weekly', ctx='thread')
+    def foo():
+        print "No, no, dig up stupid. - Chief Wiggum"
+```
+
 Call a function and run it within a separate process:
 ```python
     # Fire every hour.
-    @crython.job(expr='@hourly', ctx='process')
+    @crython.job(expr='@hourly', ctx='multiprocess')
     def foo():
-        print "No, no, dig up stupid. - Chief Wiggum"
+        print "Eat my shorts. - Bart Simpson"
 ```
 
 Start the global job scheduler:  
