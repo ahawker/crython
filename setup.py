@@ -7,8 +7,8 @@
     :copyright: (c) 2013 Andrew Hawker.
     :license: MIT, see LICENSE for more details.
 """
-
 import ast
+import io
 import re
 
 try:
@@ -21,12 +21,12 @@ version_regex = re.compile(r'__version__\s+=\s+(.*)')
 
 
 def get_version():
-    with open('crython/__init__.py', 'r') as f:
+    with io.open('crython/__init__.py', 'r', encoding='utf-8') as f:
         return str(ast.literal_eval(version_regex.search(f.read()).group(1)))
 
 
 def get_long_description():
-    with open('README.rst') as f:
+    with io.open('README.rst', 'r', encoding='utf-8') as f:
         return f.read()
 
 
