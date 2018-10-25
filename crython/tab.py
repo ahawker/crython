@@ -133,7 +133,22 @@ def start():
 def stop():
     """
     Stop the default, global :class:`~crython.tab.CronTab` instance.
+
+    This informs the background thread to stop processing new jobs but does not wait for it to
+    finish completing its current ones. If the caller wishes to wait for the thread to stop completely,
+    it should call :func:`join`.
     """
     global default_tab
 
     default_tab.stop()
+
+
+def join(timeout=None):
+    """
+    Join the default, global :class:`~crython.tab.CronTab` instance thread.
+
+    :param timeout: Timeout in seconds to block waiting on the crontab instance. If None, wait forever.
+    """
+    global default_tab
+
+    return default_tab.join(timeout)

@@ -110,6 +110,13 @@ Start the global job scheduler:
 ```python
     if __name__ == '__main__':
         crython.start()
+        crython.join()  ## This will block
+```
+
+Stop the global job scheduler:
+```python
+    crython.stop()
+    crython.join(timeout=5000)  ## This will block 5s waiting for thread to stop.
 ```
 
 ### Keywords

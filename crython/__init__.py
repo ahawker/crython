@@ -9,10 +9,10 @@
 """
 
 from .job import job
-from .tab import start, stop
+from .tab import join, start, stop
 
 
-__all__ = ['job', 'start', 'stop']
+__all__ = ['job', 'join', 'start', 'stop']
 
 
 __version__ = '0.0.9'
