@@ -15,4 +15,4 @@ from .tab import join, start, stop
 __all__ = ['job', 'join', 'start', 'stop']
 
 
-__version__ = '0.0.9'
+__version__ = '0.1.0'
