@@ -2,7 +2,134 @@
 
 ## [Unreleased](https://github.com/ahawker/crython/tree/HEAD)
 
-[Full Changelog](https://github.com/ahawker/crython/compare/v0.0.8...HEAD)
+[Full Changelog](https://github.com/ahawker/crython/compare/v0.2.0...HEAD)
+
+**Closed issues:**
+
+- How to change the logging level [\#275](https://github.com/ahawker/crython/issues/275)
+
+**Merged pull requests:**
+
+- Update README.rst based on latest README.md changes [\#381](https://github.com/ahawker/crython/pull/381) ([ahawker](https://github.com/ahawker))
+- Freeze pylint/pytest requirements for py34 [\#380](https://github.com/ahawker/crython/pull/380) ([ahawker](https://github.com/ahawker))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#378](https://github.com/ahawker/crython/pull/378) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Wednesday [\#375](https://github.com/ahawker/crython/pull/375) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#371](https://github.com/ahawker/crython/pull/371) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Saturday [\#369](https://github.com/ahawker/crython/pull/369) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#368](https://github.com/ahawker/crython/pull/368) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#366](https://github.com/ahawker/crython/pull/366) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Friday [\#365](https://github.com/ahawker/crython/pull/365) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#364](https://github.com/ahawker/crython/pull/364) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#362](https://github.com/ahawker/crython/pull/362) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#361](https://github.com/ahawker/crython/pull/361) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Wednesday [\#360](https://github.com/ahawker/crython/pull/360) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#359](https://github.com/ahawker/crython/pull/359) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#356](https://github.com/ahawker/crython/pull/356) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#354](https://github.com/ahawker/crython/pull/354) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#353](https://github.com/ahawker/crython/pull/353) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#347](https://github.com/ahawker/crython/pull/347) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Wednesday [\#344](https://github.com/ahawker/crython/pull/344) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#342](https://github.com/ahawker/crython/pull/342) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#341](https://github.com/ahawker/crython/pull/341) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Saturday [\#339](https://github.com/ahawker/crython/pull/339) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#337](https://github.com/ahawker/crython/pull/337) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Wednesday [\#336](https://github.com/ahawker/crython/pull/336) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#335](https://github.com/ahawker/crython/pull/335) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#333](https://github.com/ahawker/crython/pull/333) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Friday [\#332](https://github.com/ahawker/crython/pull/332) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#331](https://github.com/ahawker/crython/pull/331) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#330](https://github.com/ahawker/crython/pull/330) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#329](https://github.com/ahawker/crython/pull/329) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#328](https://github.com/ahawker/crython/pull/328) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#327](https://github.com/ahawker/crython/pull/327) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#326](https://github.com/ahawker/crython/pull/326) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#323](https://github.com/ahawker/crython/pull/323) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#322](https://github.com/ahawker/crython/pull/322) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#321](https://github.com/ahawker/crython/pull/321) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#317](https://github.com/ahawker/crython/pull/317) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#316](https://github.com/ahawker/crython/pull/316) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Sunday [\#315](https://github.com/ahawker/crython/pull/315) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Friday [\#314](https://github.com/ahawker/crython/pull/314) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Wednesday [\#313](https://github.com/ahawker/crython/pull/313) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#312](https://github.com/ahawker/crython/pull/312) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Friday [\#310](https://github.com/ahawker/crython/pull/310) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Thursday [\#309](https://github.com/ahawker/crython/pull/309) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Wednesday [\#308](https://github.com/ahawker/crython/pull/308) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Sunday [\#307](https://github.com/ahawker/crython/pull/307) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Wednesday [\#306](https://github.com/ahawker/crython/pull/306) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#305](https://github.com/ahawker/crython/pull/305) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Monday [\#304](https://github.com/ahawker/crython/pull/304) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on Tuesday [\#303](https://github.com/ahawker/crython/pull/303) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on wednesday [\#301](https://github.com/ahawker/crython/pull/301) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on wednesday [\#300](https://github.com/ahawker/crython/pull/300) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on tuesday [\#299](https://github.com/ahawker/crython/pull/299) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on monday [\#298](https://github.com/ahawker/crython/pull/298) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on sunday [\#297](https://github.com/ahawker/crython/pull/297) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on sunday [\#290](https://github.com/ahawker/crython/pull/290) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on saturday [\#289](https://github.com/ahawker/crython/pull/289) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on monday [\#288](https://github.com/ahawker/crython/pull/288) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on wednesday [\#287](https://github.com/ahawker/crython/pull/287) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on tuesday [\#286](https://github.com/ahawker/crython/pull/286) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on saturday [\#285](https://github.com/ahawker/crython/pull/285) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on thursday [\#283](https://github.com/ahawker/crython/pull/283) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on monday [\#281](https://github.com/ahawker/crython/pull/281) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on wednesday [\#280](https://github.com/ahawker/crython/pull/280) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on tuesday [\#279](https://github.com/ahawker/crython/pull/279) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on monday [\#278](https://github.com/ahawker/crython/pull/278) ([pyup-bot](https://github.com/pyup-bot))
+
+## [v0.2.0](https://github.com/ahawker/crython/tree/v0.2.0) (2018-11-25)
+[Full Changelog](https://github.com/ahawker/crython/compare/v0.1.0...v0.2.0)
+
+**Implemented enhancements:**
+
+- Feature: Block on global CronTab thread [\#263](https://github.com/ahawker/crython/issues/263)
+
+**Merged pull requests:**
+
+- pyup.io:  Scheduled daily dependency update on saturday [\#277](https://github.com/ahawker/crython/pull/277) ([pyup-bot](https://github.com/pyup-bot))
+
+## [v0.1.0](https://github.com/ahawker/crython/tree/v0.1.0) (2018-11-15)
+[Full Changelog](https://github.com/ahawker/crython/compare/v0.0.9...v0.1.0)
+
+**Implemented enhancements:**
+
+- Fix 'ctx' examples in README [\#254](https://github.com/ahawker/crython/issues/254)
+- Full Windows Support [\#37](https://github.com/ahawker/crython/issues/37)
+
+**Fixed bugs:**
+
+- Fix 'ctx' examples in README [\#254](https://github.com/ahawker/crython/issues/254)
+- Request for updating pypi version to 0.0.8 [\#243](https://github.com/ahawker/crython/issues/243)
+
+**Closed issues:**
+
+- Add Python 3.7 Support [\#258](https://github.com/ahawker/crython/issues/258)
+
+**Merged pull requests:**
+
+- pyup.io:  Scheduled daily dependency update on thursday [\#274](https://github.com/ahawker/crython/pull/274) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on tuesday [\#273](https://github.com/ahawker/crython/pull/273) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on monday [\#272](https://github.com/ahawker/crython/pull/272) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on sunday [\#271](https://github.com/ahawker/crython/pull/271) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on monday [\#270](https://github.com/ahawker/crython/pull/270) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on monday [\#269](https://github.com/ahawker/crython/pull/269) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on sunday [\#268](https://github.com/ahawker/crython/pull/268) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on saturday [\#267](https://github.com/ahawker/crython/pull/267) ([pyup-bot](https://github.com/pyup-bot))
+- Expose 'join' method from CronTab thread on crython module [\#266](https://github.com/ahawker/crython/pull/266) ([ahawker](https://github.com/ahawker))
+- pyup.io:  Scheduled daily dependency update on tuesday [\#265](https://github.com/ahawker/crython/pull/265) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on thursday [\#261](https://github.com/ahawker/crython/pull/261) ([pyup-bot](https://github.com/pyup-bot))
+- Add py37 support [\#257](https://github.com/ahawker/crython/pull/257) ([ahawker](https://github.com/ahawker))
+- Add AppVeyor support for Windows testing. [\#256](https://github.com/ahawker/crython/pull/256) ([ahawker](https://github.com/ahawker))
+- Fix 'README.md' to include correct examples on how to use the 'ctx' p… [\#255](https://github.com/ahawker/crython/pull/255) ([raverona](https://github.com/raverona))
+- pyup.io:  Scheduled daily dependency update on tuesday [\#253](https://github.com/ahawker/crython/pull/253) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on monday [\#252](https://github.com/ahawker/crython/pull/252) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on saturday [\#251](https://github.com/ahawker/crython/pull/251) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on wednesday [\#250](https://github.com/ahawker/crython/pull/250) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on monday [\#248](https://github.com/ahawker/crython/pull/248) ([pyup-bot](https://github.com/pyup-bot))
+- pyup.io:  Scheduled daily dependency update on thursday [\#245](https://github.com/ahawker/crython/pull/245) ([pyup-bot](https://github.com/pyup-bot))
+
+## [v0.0.9](https://github.com/ahawker/crython/tree/v0.0.9) (2018-09-19)
+[Full Changelog](https://github.com/ahawker/crython/compare/v0.0.8...v0.0.9)
 
 **Closed issues:**
 
