@@ -30,8 +30,9 @@ install:
   - "set MSSDK=1"
   - "set DISTUTILS_USE_SDK=1"
   - "python -m pip install --upgrade pip wheel setuptools"
-  - "make tox-install"
+  - "make test-install"
 test_script:
-  - "make tox"
+  - "set PYTHONPATH=."
+  - "make test"
 on_success:
   - "codecov -f coverage.xml"
