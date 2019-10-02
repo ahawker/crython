@@ -29,7 +29,7 @@ install:
   - "set PATH=%PYTHON%;%PYTHON%\\Scripts;C:\\MinGW\\bin;%PATH%"
   - "set MSSDK=1"
   - "set DISTUTILS_USE_SDK=1"
-  - "python -m pip install --upgrade pip wheel"
+  - "python -m pip install --upgrade pip wheel setuptools"
   - "make tox-install"
 test_script:
   - "make tox"
