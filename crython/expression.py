@@ -8,7 +8,6 @@ from __future__ import unicode_literals
 
 from crython import compat, field, log
 
-
 __all__ = ['CronExpression']
 
 

@@ -42,6 +42,3 @@ def invalid_length_expression_str(request):
     Fixture that yields cron expression strings that are not the correct length.
     """
     return request.param
-
-
-

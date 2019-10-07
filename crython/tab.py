@@ -8,12 +8,11 @@
 from __future__ import unicode_literals
 
 import datetime
-import threading
 import multiprocessing
+import threading
 import time
 
 from crython import log
-
 
 __all__ = ['CronTab', 'default_tab', 'start', 'stop']
 
