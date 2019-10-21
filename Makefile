@@ -56,10 +56,10 @@ codeclimate:  ## Run codeclimate analysis.
 		--volume /var/run/docker.sock:/var/run/docker.sock \
 		--volume /tmp/cc:/tmp/cc \
 		codeclimate/codeclimate analyze
+
 .PHONY: isort
 isort:  ## Run isort on the package.
 	@isort --recursive --check-only crython tests
-
 
 .PHONY: seclint
 seclint:  ## Run bandit on the package.
