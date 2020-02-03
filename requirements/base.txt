@@ -5,4 +5,4 @@
 -r build.txt
 
 ordereddict==1.1; python_version < '2.7'
-six==1.12.0
+six==1.14.0
