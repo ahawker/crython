@@ -108,7 +108,7 @@ class CronTab(threading.Thread):
                     if job.cron_expression.matches(now):
                         EXECUTION_CONTEXTS[job.ctx](job)
 
-                time.sleep(1)
+                time.sleep(1 - (time.time_ns() % 1_000_000_000) / 1_000_000_000)
         except Exception:  # pylint: disable=broad-except
             self.logger.exception('{0} encountered unhandled exception'.format(self.name))
         finally:
